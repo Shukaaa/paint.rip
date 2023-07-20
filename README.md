@@ -1,6 +1,6 @@
 # paint.rip
 
-![paint.rip]("src/main/resources/images/paint.rip.png")
+![paint.rip](src/main/resources/images/paint.rip.png)
 
 A simple Java application to manipulate images in a variety of ways.
 
@@ -13,7 +13,7 @@ A simple Java application to manipulate images in a variety of ways.
 
 ##### Grayscale
 
-![grayscale]("assets/grayscale.png")
+![grayscale](assets/grayscale.png)
 
 Converts the image to grayscale.
 
@@ -22,7 +22,7 @@ Possible options:
 
 ##### Invert
 
-![invert]("assets/invert.png")
+![invert](assets/invert.png)
 
 Inverts the colors of the image.
 
@@ -31,13 +31,13 @@ Possible options:
 
 ##### Invert with Treshold
 
-![invert with treshold]("assets/invert-treshold.png")
+![invert with treshold](assets/invert-treshold.png)
 
 Inverts the colors of the image with a treshold of 100.
 
 ##### Melt
 
-![melt]("assets/melt-red.png")
+![melt](assets/melt-red.png)
 
 Melt a color into the image.
 In the example below, the red color is melted into the image.
@@ -48,7 +48,7 @@ Possible options:
 
 ##### Black and White
 
-![black and white]("assets/black-and-white.png")
+![black and white](assets/black-and-white.png)
 
 Distorts the image to black and white.
 
@@ -57,7 +57,7 @@ Possible options:
 
 ##### Row Slicer
 
-![row slicer]("assets/Row Slicer.png")
+![row slicer](assets/Row Slicer.png)
 
 Fully distorts the image by sorting the rows of the image.
 
@@ -66,7 +66,7 @@ Possible options:
 
 ##### Cos Sin Shuffler (Low Modulo Settings)
 
-![cos sin shuffler]("assets/cossin-modulo-low.png")
+![cos sin shuffler](assets/cossin-modulo-low.png)
 
 Shuffles the image by using the cos and sin functions.
 
