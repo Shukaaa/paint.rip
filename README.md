@@ -1,6 +1,6 @@
 # paint.rip
 
-![paint.rip](src/main/resources/images/paint.rip.png)
+![paint.rip](src/main/resources/images/paintrip.png)
 
 A simple Java application to manipulate images in a variety of ways.
 
@@ -75,4 +75,4 @@ Possible options:
 
 ##### Cos Sin Shuffler (High Modulo Settings)
 
-![cos sin shuffler]("assets/cossin-modulo-high.png")
+![cos sin shuffler](assets/cossin-modulo-high.png)
