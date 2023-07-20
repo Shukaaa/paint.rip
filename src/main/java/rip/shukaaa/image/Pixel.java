@@ -54,4 +54,12 @@ public class Pixel {
     public void setPixel(int pixel) {
         this.pixel = pixel;
     }
+
+    public int getX(int width) {
+        return (pixel % width);
+    }
+
+    public int getY(int width) {
+        return (pixel / width);
+    }
 }

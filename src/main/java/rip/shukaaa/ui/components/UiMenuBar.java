@@ -2,7 +2,9 @@ package rip.shukaaa.ui.components;
 
 import rip.shukaaa.Main;
 import rip.shukaaa.enums.ImageFormats;
+import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.exceptions.ImageNotFoundException;
+import rip.shukaaa.image.Pixel;
 import rip.shukaaa.ui.UiManager;
 
 import javax.swing.*;
@@ -32,6 +34,8 @@ public class UiMenuBar extends JMenuBar {
 
             try {
                 Main.setImg(selectedFile);
+                Main.backupImage = selectedFile;
+                Main.updateImage(Main.getImg(Main.backupImage), uiManager);
             } catch (ImageNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
@@ -84,7 +88,11 @@ public class UiMenuBar extends JMenuBar {
 
         JMenuItem reset = new JMenuItem("Reset");
         reset.addActionListener(e -> {
-            Main.updateImage(Main.originalImg, uiManager);
+            try {
+                Main.updateImage(Main.getImg(Main.backupImage), uiManager);
+            } catch (ImageNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         editMenu.add(reset);
 
@@ -149,8 +157,28 @@ public class UiMenuBar extends JMenuBar {
         });
         effectsMenu.add(grayscaleMenuItem);
 
-        effectsMenu.addSeparator();
+        JMenuItem melt = new JMenuItem("Melt");
+        melt.addActionListener(e -> {
+            JDialog meltDialog = createDialog("Add Melt");
+            meltDialog.add(new JLabel("Threshold:"));
+            JSlider threshold = new JSlider(0, 256, 256);
+            meltDialog.add(threshold);
+            JColorChooser colorChooser = new JColorChooser();
+            meltDialog.add(colorChooser);
+            JButton apply = new JButton("Apply");
+            meltDialog.add(apply);
+            apply.addActionListener(e1 -> {
+                Color color = colorChooser.getColor();
+                Pixel pixel = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
+                Main.img.melt(threshold.getValue(), pixel);
+                Main.updateImage(Main.img, uiManager);
+                meltDialog.dispose();
+            });
+            meltDialog.pack();
+        });
+        effectsMenu.add(melt);
 
+        effectsMenu.addSeparator();
         effectsMenu.add(createLabelTitle("Distortion: "));
 
         JMenuItem blackAndWhite = new JMenuItem("Black and White");
@@ -169,6 +197,43 @@ public class UiMenuBar extends JMenuBar {
             blackAndWhiteDialog.pack();
         });
         effectsMenu.add(blackAndWhite);
+
+        effectsMenu.addSeparator();
+        effectsMenu.add(createLabelTitle("Sort Distortion: "));
+
+        JMenuItem rowSlicer = new JMenuItem("Row Slicer");
+        rowSlicer.addActionListener(e -> {
+            JDialog blurDialog = createDialog("Add Row Slicer");
+            blurDialog.add(new JLabel("Mode:"));
+            JComboBox<RowSlicerMode> mode = new JComboBox<>(RowSlicerMode.values());
+            blurDialog.add(mode);
+            JButton apply = new JButton("Apply");
+            blurDialog.add(apply);
+            apply.addActionListener(e1 -> {
+                Main.img.rowSlicer(mode.getItemAt(mode.getSelectedIndex()));
+                Main.updateImage(Main.img, uiManager);
+                blurDialog.dispose();
+            });
+            blurDialog.pack();
+        });
+        effectsMenu.add(rowSlicer);
+
+        JMenuItem shuffler = new JMenuItem("Cos Sin Shuffler");
+        shuffler.addActionListener(e -> {
+            JDialog shufflerDialog = createDialog("Add Shuffler");
+            shufflerDialog.add(new JLabel("Modulo:"));
+            JSlider modulo = new JSlider(0, 256, 100);
+            shufflerDialog.add(modulo);
+            JButton apply = new JButton("Apply");
+            shufflerDialog.add(apply);
+            apply.addActionListener(e1 -> {
+                Main.img.cosSinShuffler(modulo.getValue());
+                Main.updateImage(Main.img, uiManager);
+                shufflerDialog.dispose();
+            });
+            shufflerDialog.pack();
+        });
+        effectsMenu.add(shuffler);
     }
 
     private JLabel createLabelTitle(String title) {

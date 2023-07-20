@@ -1,9 +1,8 @@
 package rip.shukaaa.image;
 
 import rip.shukaaa.enums.ImageFormats;
-import rip.shukaaa.image.effects.BlackAndWhite;
-import rip.shukaaa.image.effects.Grayscale;
-import rip.shukaaa.image.effects.Invert;
+import rip.shukaaa.enums.RowSlicerMode;
+import rip.shukaaa.image.effects.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -54,7 +53,7 @@ public class ShukaaaImage extends BufferedImage {
 
     //* Resize *//
 
-    private ShukaaaImage resizedImage(int width, int height) {
+    public ShukaaaImage resizedImage(int width, int height) {
         BufferedImage resized = new BufferedImage(width, height, this.getType());
         resized.getGraphics().drawImage(this, 0, 0, width, height, null);
         return new ShukaaaImage(resized);
@@ -108,5 +107,17 @@ public class ShukaaaImage extends BufferedImage {
 
     public void blackAndWhite(int threshold) {
         this.setPixels(BlackAndWhite.blackAndWhite(this.getPixels(), threshold));
+    }
+
+    public void rowSlicer(RowSlicerMode mode) {
+        SortDistortion.rowSlicer(this, mode);
+    }
+
+    public void cosSinShuffler(int modulo) {
+        SortDistortion.cosSinShuffler(this, modulo);
+    }
+
+    public void melt(int threshold, Pixel pixel) {
+        this.setPixels(Melter.melt(this.getPixels(), threshold, pixel));
     }
 }

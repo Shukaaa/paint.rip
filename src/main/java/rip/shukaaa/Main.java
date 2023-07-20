@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 public class Main {
-    public static ShukaaaImage originalImg = null;
+    public static File backupImage = null;
     public static ShukaaaImage img = null;
     public static String tempImageCount = "0";
     public static UiManager uiManager;
@@ -30,16 +30,18 @@ public class Main {
         uiManager.updateImage("./temp/tempImage-"+tempImageCount+".png");
     }
 
-    public static void setImg(File f) throws ImageNotFoundException {
+    public static ShukaaaImage getImg(File f) throws ImageNotFoundException {
         try{
             BufferedImage buffImg = ImageIO.read(f);
             img = new ShukaaaImage(buffImg);
-            originalImg = new ShukaaaImage(buffImg);
+            return img;
         } catch(IOException e) {
             throw new ImageNotFoundException("No image found in this path!");
         }
+    }
 
-        if (img == null) throw new ImageNotFoundException("No image path provided!");
+    public static void setImg(File f) throws ImageNotFoundException {
+        ShukaaaImage img = getImg(f);
 
         // check if folder temp exists and if not create it
         File tempFolder = new File("temp");
