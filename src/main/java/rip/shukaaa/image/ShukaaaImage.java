@@ -120,4 +120,8 @@ public class ShukaaaImage extends BufferedImage {
     public void melt(int threshold, Pixel pixel) {
         this.setPixels(Melter.melt(this.getPixels(), threshold, pixel));
     }
+
+    public void flip() {
+        this.setPixels(Transform.flip(this.getPixels()));
+    }
 }

@@ -198,9 +198,6 @@ public class UiMenuBar extends JMenuBar {
         });
         effectsMenu.add(blackAndWhite);
 
-        effectsMenu.addSeparator();
-        effectsMenu.add(createLabelTitle("Sort Distortion: "));
-
         JMenuItem rowSlicer = new JMenuItem("Row Slicer");
         rowSlicer.addActionListener(e -> {
             JDialog blurDialog = createDialog("Add Row Slicer");
@@ -234,11 +231,74 @@ public class UiMenuBar extends JMenuBar {
             shufflerDialog.pack();
         });
         effectsMenu.add(shuffler);
+
+        //******************//
+        //* Transform Menu *//
+        //******************//
+
+        JMenu imageMenu = new JMenu("Image");
+        this.add(imageMenu);
+
+        imageMenu.add(createLabelTitle("Properties: "));
+        JMenuItem resize = new JMenuItem("Resize");
+        resize.addActionListener(e -> {
+            JDialog resizeDialog = createDialog("Resize Image");
+            resizeDialog.add(new JLabel("Width:"));
+            JSpinner widthSpinner = createSpinner(Main.img.getWidth(), 1, 10000, "Width");
+            resizeDialog.add(widthSpinner);
+            resizeDialog.add(new JLabel("Height:"));
+            JSpinner heightSpinner = createSpinner(Main.img.getHeight(), 1, 10000, "Height");
+            resizeDialog.add(heightSpinner);
+            JButton apply = new JButton("Apply");
+            resizeDialog.add(apply);
+            apply.addActionListener(e1 -> {
+                Main.img = Main.img.resizedImage((int) widthSpinner.getValue(), (int) heightSpinner.getValue());
+                Main.updateImage(Main.img, uiManager);
+                resizeDialog.dispose();
+            });
+            resizeDialog.pack();
+        });
+        imageMenu.add(resize);
+
+        imageMenu.addSeparator();
+
+        imageMenu.add(createLabelTitle("Transform: "));
+
+        JMenuItem flip = new JMenuItem("Flip");
+        flip.addActionListener(e -> {
+            Main.img.flip();
+            Main.updateImage(Main.img, uiManager);
+        });
+        imageMenu.add(flip);
+
+
+
+        // Disable all menu items except for open
+        for (int i = 1; i < this.getMenuCount(); i++) {
+            JMenu menu = this.getMenu(i);
+            menu.setEnabled(false);
+        }
+
+        save.setEnabled(false);
+    }
+
+    public void unlockMenu() {
+        for (int i = 0; i < this.getMenuCount(); i++) {
+            JMenu menu = this.getMenu(i);
+            menu.setEnabled(true);
+
+            for (int j = 0; j < menu.getItemCount(); j++) {
+                try {
+                    menu.getItem(j).setEnabled(true);
+                } catch (NullPointerException ignored) {}
+            }
+        }
     }
 
     private JLabel createLabelTitle(String title) {
         JLabel label = new JLabel(title);
-        label.setFont(label.getFont().deriveFont(14.0f));
+        // add bold
+        label.setFont(label.getFont().deriveFont(14.0f).deriveFont(Font.ITALIC));
         label.setBorder(BorderFactory.createEmptyBorder(0, 8, 4, 0));
         return label;
     }

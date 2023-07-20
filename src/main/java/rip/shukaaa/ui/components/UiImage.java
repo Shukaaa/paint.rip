@@ -1,10 +1,11 @@
 package rip.shukaaa.ui.components;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class UiImage extends JLabel {
-    public UiImage() {
-        super(new ImageIcon());
+    public UiImage(URL image) {
+        super(new ImageIcon(image));
     }
 
     public void updateImage(String path) {
