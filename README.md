@@ -11,7 +11,7 @@ A simple Java application to manipulate images in a variety of ways.
 
 ### Effects
 
-##### Grayscale
+#### Grayscale
 
 ![grayscale](assets/grayscale.png)
 
@@ -20,7 +20,7 @@ Converts the image to grayscale.
 Possible options:
 - Treshold (0-256) - The value at which the image is converted to black and white.
 
-##### Invert
+#### Invert
 
 ![invert](assets/invert.png)
 
@@ -29,13 +29,13 @@ Inverts the colors of the image.
 Possible options:
 - Treshold (0-256) - The value at which the image is going to be inverted.
 
-##### Invert with Treshold
+#### Invert with Treshold
 
 ![invert with treshold](assets/invert-treshold.png)
 
 Inverts the colors of the image with a treshold of 100.
 
-##### Melt
+#### Melt
 
 ![melt](assets/melt-red.png)
 
@@ -46,7 +46,7 @@ Possible options:
 - Color - The color to melt into the image.
 - Treshold (0-256) - The value at which the image is going to be melted.
 
-##### Black and White
+#### Black and White
 
 ![black and white](assets/black-and-white.png)
 
@@ -55,7 +55,7 @@ Distorts the image to black and white.
 Possible options:
 - Treshold (0-256) - The value at which the image is converted to black and white.
 
-##### Row Slicer
+#### Row Slicer
 
 ![row slicer](assets/row-slicer.png)
 
@@ -64,7 +64,7 @@ Fully distorts the image by sorting the rows of the image.
 Possible options:
 - RowSlicerMode - The mode of the row slicer. (RED, GREEN, BLUE)
 
-##### Cos Sin Shuffler (Low Modulo Settings)
+#### Cos Sin Shuffler (Low Modulo Settings)
 
 ![cos sin shuffler](assets/cossin-modulo-low.png)
 
@@ -73,6 +73,6 @@ Shuffles the image by using the cos and sin functions.
 Possible options:
 - Modulo - The modulo of the cos and sin functions.
 
-##### Cos Sin Shuffler (High Modulo Settings)
+#### Cos Sin Shuffler (High Modulo Settings)
 
 ![cos sin shuffler](assets/cossin-modulo-high.png)
