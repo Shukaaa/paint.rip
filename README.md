@@ -1,6 +1,6 @@
 # paint.rip
 
-![paint.rip](src/main/resources/images/paintrip.png)
+![paint.rip](src/main/resources/paintrip.png)
 
 A simple Java application to manipulate images in a variety of ways.
 
@@ -57,7 +57,7 @@ Possible options:
 
 ##### Row Slicer
 
-![row slicer](assets/Row Slicer.png)
+![row slicer](assets/row-slicer.png)
 
 Fully distorts the image by sorting the rows of the image.
 
