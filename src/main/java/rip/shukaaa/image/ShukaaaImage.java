@@ -1,6 +1,7 @@
 package rip.shukaaa.image;
 
 import rip.shukaaa.enums.ImageFormats;
+import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.image.effects.*;
 
@@ -109,12 +110,16 @@ public class ShukaaaImage extends BufferedImage {
         this.setPixels(BlackAndWhite.blackAndWhite(this.getPixels(), threshold));
     }
 
-    public void rowSlicer(RowSlicerMode mode) {
-        SortDistortion.rowSlicer(this, mode);
+    public void rowSlicer(RowSlicerMode mode, RowSlicerDirection direction) {
+        SortDistortion.rowSlicer(this, mode, direction);
     }
 
     public void cosSinShuffler(int modulo) {
         SortDistortion.cosSinShuffler(this, modulo);
+    }
+
+    public void randomShuffler() {
+        SortDistortion.randomShuffler(this);
     }
 
     public void melt(int threshold, Pixel pixel) {
@@ -123,5 +128,9 @@ public class ShukaaaImage extends BufferedImage {
 
     public void flip() {
         this.setPixels(Transform.flip(this.getPixels()));
+    }
+
+    public void distortionFlip() {
+        Transform.distortionFlip(this);
     }
 }

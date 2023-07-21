@@ -1,5 +1,6 @@
 package rip.shukaaa.image.effects;
 
+import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -10,14 +11,22 @@ import java.util.Comparator;
 public final class SortDistortion {
     private SortDistortion() { }
 
-    public static void rowSlicer(ShukaaaImage image, RowSlicerMode mode) {
+    public static void rowSlicer(ShukaaaImage image, RowSlicerMode mode, RowSlicerDirection direction) {
         int width = image.getWidth();
         int height = image.getHeight();
         ArrayList<Pixel> pixel = image.getPixels();
+
+        if (direction == RowSlicerDirection.ROW) {
+            image.setPixels(rowSlice(height, width, pixel, mode));
+        } else {
+            image.setPixels(rowSlice(width, height, pixel, mode));
+        }
+    }
+
+    private static ArrayList<Pixel> rowSlice(int height, int width, ArrayList<Pixel> pixel, RowSlicerMode mode) {
         ArrayList<Pixel> newPixels = new ArrayList<>(pixel.size());
 
         for (int y = 0; y < height; y++) {
-            System.out.println("Progress: " + (int) (((double) y / (double) height) * 100) + "%");
             ArrayList<Pixel> row = new ArrayList<>();
             for (int x = 0; x < width; x++) {
                 row.add(pixel.get(x + y * width));
@@ -32,9 +41,7 @@ public final class SortDistortion {
             newPixels.addAll(row);
         }
 
-        System.out.println("Progress: 100%");
-
-        image.setPixels(newPixels);
+        return newPixels;
     }
 
     public static void cosSinShuffler(ShukaaaImage image, int modulo) {
@@ -67,5 +74,24 @@ public final class SortDistortion {
         image.setPixels(newPixels);
     }
 
+    public static void randomShuffler(ShukaaaImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        ArrayList<Pixel> pixels = image.getPixels();
+        ArrayList<Pixel> newPixels = new ArrayList<>(pixels.size());
 
+        for (Pixel pixel : pixels) {
+            int newX = (int) (Math.random() * width);
+            int newY = (int) (Math.random() * height);
+
+            Pixel newPixel = pixels.get(newX + newY * width);
+            pixel.setRed(newPixel.getRed());
+            pixel.setGreen(newPixel.getGreen());
+            pixel.setBlue(newPixel.getBlue());
+
+            newPixels.add(pixel);
+        }
+
+        image.setPixels(newPixels);
+    }
 }

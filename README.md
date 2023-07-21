@@ -2,7 +2,7 @@
 
 ![paint.rip](src/main/resources/paintrip.png)
 
-A simple Java application to manipulate images in a variety of ways.
+A simple Java application to manipulate, sort and distort images in a variety of ways.
 
 ## Features
 
@@ -63,6 +63,7 @@ Fully distorts the image by sorting the rows of the image.
 
 Possible options:
 - RowSlicerMode - The mode of the row slicer. (RED, GREEN, BLUE)
+- RowSlicerDirection - The direction of the row slicer. (ROW, COLUMN)
 
 #### Cos Sin Shuffler (Low Modulo Settings)
 
@@ -76,3 +77,15 @@ Possible options:
 #### Cos Sin Shuffler (High Modulo Settings)
 
 ![cos sin shuffler](assets/cossin-modulo-high.png)
+
+#### Noise Shuffler
+
+![noise shuffler](assets/noise-shuffler.png)
+
+Turns the image into random noise.
+
+#### Distortion Flip
+
+![distortion flip](assets/distortion-flip.png)
+
+Flips the image and distorts it if the aspect ratio is not 1:1.

@@ -2,6 +2,7 @@ package rip.shukaaa.ui.components;
 
 import rip.shukaaa.Main;
 import rip.shukaaa.enums.ImageFormats;
+import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.exceptions.ImageNotFoundException;
 import rip.shukaaa.image.Pixel;
@@ -200,18 +201,20 @@ public class UiMenuBar extends JMenuBar {
 
         JMenuItem rowSlicer = new JMenuItem("Row Slicer");
         rowSlicer.addActionListener(e -> {
-            JDialog blurDialog = createDialog("Add Row Slicer");
-            blurDialog.add(new JLabel("Mode:"));
+            JDialog slicerDialog = createDialog("Add Row Slicer");
+            slicerDialog.add(new JLabel("Mode:"));
             JComboBox<RowSlicerMode> mode = new JComboBox<>(RowSlicerMode.values());
-            blurDialog.add(mode);
+            slicerDialog.add(mode);
+            JComboBox<RowSlicerDirection> direction = new JComboBox<>(RowSlicerDirection.values());
+            slicerDialog.add(direction);
             JButton apply = new JButton("Apply");
-            blurDialog.add(apply);
+            slicerDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.rowSlicer(mode.getItemAt(mode.getSelectedIndex()));
+                Main.img.rowSlicer(mode.getItemAt(mode.getSelectedIndex()), direction.getItemAt(direction.getSelectedIndex()));
                 Main.updateImage(Main.img, uiManager);
-                blurDialog.dispose();
+                slicerDialog.dispose();
             });
-            blurDialog.pack();
+            slicerDialog.pack();
         });
         effectsMenu.add(rowSlicer);
 
@@ -231,6 +234,20 @@ public class UiMenuBar extends JMenuBar {
             shufflerDialog.pack();
         });
         effectsMenu.add(shuffler);
+
+        JMenuItem randomShuffler = new JMenuItem("Noise Shuffler");
+        randomShuffler.addActionListener(e -> {
+            Main.img.randomShuffler();
+            Main.updateImage(Main.img, uiManager);
+        });
+        effectsMenu.add(randomShuffler);
+
+        JMenuItem distortionFLip = new JMenuItem("Distortion Flip");
+        distortionFLip.addActionListener(e -> {
+            Main.img.distortionFlip();
+            Main.updateImage(Main.img, uiManager);
+        });
+        effectsMenu.add(distortionFLip);
 
         //******************//
         //* Transform Menu *//
@@ -272,7 +289,6 @@ public class UiMenuBar extends JMenuBar {
         imageMenu.add(flip);
 
 
-
         // Disable all menu items except for open
         for (int i = 1; i < this.getMenuCount(); i++) {
             JMenu menu = this.getMenu(i);
@@ -290,7 +306,8 @@ public class UiMenuBar extends JMenuBar {
             for (int j = 0; j < menu.getItemCount(); j++) {
                 try {
                     menu.getItem(j).setEnabled(true);
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException ignored) {
+                }
             }
         }
     }
