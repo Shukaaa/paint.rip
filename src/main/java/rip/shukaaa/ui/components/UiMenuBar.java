@@ -4,6 +4,7 @@ import rip.shukaaa.Main;
 import rip.shukaaa.enums.ImageFormats;
 import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
+import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.exceptions.ImageNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.ui.UiManager;
@@ -12,6 +13,9 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 import java.awt.*;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class UiMenuBar extends JMenuBar {
     public UiMenuBar(UiManager uiManager) {
@@ -131,7 +135,11 @@ public class UiMenuBar extends JMenuBar {
             JButton apply = new JButton("Apply");
             invertDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.invert(threshold.getValue());
+                try {
+                    Main.img.applyEffect("invert", new HashMap<>(Map.of("threshold", threshold.getValue())));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 invertDialog.dispose();
             });
@@ -150,7 +158,11 @@ public class UiMenuBar extends JMenuBar {
             JButton apply = new JButton("Apply");
             grayscaleDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.grayscale(threshold.getValue());
+                try {
+                    Main.img.applyEffect("grayscale", new HashMap<>(Map.of("threshold", threshold.getValue())));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 grayscaleDialog.dispose();
             });
@@ -171,7 +183,11 @@ public class UiMenuBar extends JMenuBar {
             apply.addActionListener(e1 -> {
                 Color color = colorChooser.getColor();
                 Pixel pixel = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-                Main.img.melt(threshold.getValue(), pixel);
+                try {
+                    Main.img.applyEffect("melt", new HashMap<>(Map.of("threshold", threshold.getValue(), "color", pixel)));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 meltDialog.dispose();
             });
@@ -191,7 +207,11 @@ public class UiMenuBar extends JMenuBar {
             JButton apply = new JButton("Apply");
             blackAndWhiteDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.blackAndWhite(threshold.getValue());
+                try {
+                    Main.img.applyEffect("blackAndWhite", new HashMap<>(Map.of("threshold", threshold.getValue())));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 blackAndWhiteDialog.dispose();
             });
@@ -210,7 +230,14 @@ public class UiMenuBar extends JMenuBar {
             JButton apply = new JButton("Apply");
             slicerDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.rowSlicer(mode.getItemAt(mode.getSelectedIndex()), direction.getItemAt(direction.getSelectedIndex()));
+                try {
+                    Main.img.applyEffect("rowSlicer", new HashMap<>(Map.of(
+                            "mode", Objects.requireNonNull(mode.getSelectedItem()),
+                            "direction", Objects.requireNonNull(direction.getSelectedItem()))
+                    ));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 slicerDialog.dispose();
             });
@@ -227,7 +254,11 @@ public class UiMenuBar extends JMenuBar {
             JButton apply = new JButton("Apply");
             shufflerDialog.add(apply);
             apply.addActionListener(e1 -> {
-                Main.img.cosSinShuffler(modulo.getValue());
+                try {
+                    Main.img.applyEffect("cosSinShuffler", new HashMap<>(Map.of("modulo", modulo.getValue())));
+                } catch (EffectOptionNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Main.updateImage(Main.img, uiManager);
                 shufflerDialog.dispose();
             });
@@ -237,14 +268,22 @@ public class UiMenuBar extends JMenuBar {
 
         JMenuItem randomShuffler = new JMenuItem("Noise Shuffler");
         randomShuffler.addActionListener(e -> {
-            Main.img.randomShuffler();
+            try {
+                Main.img.applyEffect("randomShuffler", new HashMap<>());
+            } catch (EffectOptionNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             Main.updateImage(Main.img, uiManager);
         });
         effectsMenu.add(randomShuffler);
 
         JMenuItem distortionFLip = new JMenuItem("Distortion Flip");
         distortionFLip.addActionListener(e -> {
-            Main.img.distortionFlip();
+            try {
+                Main.img.applyEffect("distortionFlip", new HashMap<>());
+            } catch (EffectOptionNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             Main.updateImage(Main.img, uiManager);
         });
         effectsMenu.add(distortionFLip);
@@ -283,7 +322,11 @@ public class UiMenuBar extends JMenuBar {
 
         JMenuItem flip = new JMenuItem("Flip");
         flip.addActionListener(e -> {
-            Main.img.flip();
+            try {
+                Main.img.applyEffect("flip", new HashMap<>());
+            } catch (EffectOptionNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
             Main.updateImage(Main.img, uiManager);
         });
         imageMenu.add(flip);

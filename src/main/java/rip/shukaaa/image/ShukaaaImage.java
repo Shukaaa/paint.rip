@@ -1,15 +1,16 @@
 package rip.shukaaa.image;
 
+import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.EffectRegister;
 import rip.shukaaa.enums.ImageFormats;
-import rip.shukaaa.enums.RowSlicerDirection;
-import rip.shukaaa.enums.RowSlicerMode;
-import rip.shukaaa.image.effects.*;
+import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShukaaaImage extends BufferedImage {
     private ArrayList<Pixel> pixels;
@@ -18,6 +19,10 @@ public class ShukaaaImage extends BufferedImage {
     public ShukaaaImage(BufferedImage img) {
         super(img.getWidth(), img.getHeight(), img.getType());
         this.setData(img.getData());
+    }
+
+    public ShukaaaImage(int width, int height) {
+        super(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
     //* Pixels *//
@@ -96,41 +101,8 @@ public class ShukaaaImage extends BufferedImage {
         }
     }
 
-    //* Effects *//
-
-    public void invert(int threshold) {
-        this.setPixels(Invert.invert(this.getPixels(), threshold));
-    }
-
-    public void grayscale(int threshold) {
-        this.setPixels(Grayscale.grayscale(this.getPixels(), threshold));
-    }
-
-    public void blackAndWhite(int threshold) {
-        this.setPixels(BlackAndWhite.blackAndWhite(this.getPixels(), threshold));
-    }
-
-    public void rowSlicer(RowSlicerMode mode, RowSlicerDirection direction) {
-        SortDistortion.rowSlicer(this, mode, direction);
-    }
-
-    public void cosSinShuffler(int modulo) {
-        SortDistortion.cosSinShuffler(this, modulo);
-    }
-
-    public void randomShuffler() {
-        SortDistortion.randomShuffler(this);
-    }
-
-    public void melt(int threshold, Pixel pixel) {
-        this.setPixels(Melter.melt(this.getPixels(), threshold, pixel));
-    }
-
-    public void flip() {
-        this.setPixels(Transform.flip(this.getPixels()));
-    }
-
-    public void distortionFlip() {
-        Transform.distortionFlip(this);
+    public void applyEffect(String effectName, HashMap<String, Object> args) throws EffectOptionNotFoundException {
+        Effect effect = EffectRegister.getEffect(effectName);
+        this.setPixels(effect.apply(this, args));
     }
 }
