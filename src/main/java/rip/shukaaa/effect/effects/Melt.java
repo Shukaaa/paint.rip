@@ -1,6 +1,10 @@
 package rip.shukaaa.effect.effects;
 
 import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.input.EffectInput;
+import rip.shukaaa.effect.input.inputs.ColorChooser;
+import rip.shukaaa.effect.input.inputs.Slider;
+import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -8,23 +12,20 @@ import rip.shukaaa.image.ShukaaaImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Melt implements Effect {
+public class Melt extends Effect {
+    public Melt() {
+        super(new EffectInput[]{
+                new Slider(0, 256, 256, "Threshold"),
+                new ColorChooser("Color")
+        }, EffectCategory.EFFECTS);
+    }
+
     public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
         ArrayList<Pixel> pixels = image.getPixels();
 
-        int threshold;
-        try {
-            threshold = (int) args.get("threshold");
-        } catch (NullPointerException e) {
-            throw new EffectOptionNotFoundException("Threshold not found");
-        }
+        int threshold = (int) args.get("Threshold");
 
-        Pixel pixelColor;
-        try {
-            pixelColor = (Pixel) args.get("color");
-        } catch (NullPointerException e) {
-            throw new EffectOptionNotFoundException("Color not found");
-        }
+        Pixel pixelColor = (Pixel) args.get("Color");
 
         int r = pixelColor.getRed();
         int g = pixelColor.getGreen();

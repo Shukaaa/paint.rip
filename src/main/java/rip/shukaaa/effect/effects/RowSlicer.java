@@ -1,6 +1,9 @@
 package rip.shukaaa.effect.effects;
 
 import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.input.EffectInput;
+import rip.shukaaa.effect.input.inputs.ComboBox;
+import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
@@ -11,22 +14,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 
-public class RowSlicer implements Effect {
+public class RowSlicer extends Effect {
+    public RowSlicer() {
+        super(new EffectInput[]{
+                new ComboBox<>(RowSlicerDirection.values(), "Direction"),
+                new ComboBox<>(RowSlicerMode.values(), "Mode")
+        }, EffectCategory.DISTORTION);
+    }
+
     public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-        RowSlicerDirection direction;
-        RowSlicerMode mode;
-
-        try {
-            direction = (RowSlicerDirection) args.get("direction");
-        } catch (NullPointerException e) {
-            throw new EffectOptionNotFoundException("Direction not found");
-        }
-
-        try {
-            mode = (RowSlicerMode) args.get("mode");
-        } catch (NullPointerException e) {
-            throw new EffectOptionNotFoundException("Mode not found");
-        }
+        RowSlicerDirection direction = (RowSlicerDirection) args.get("Direction");
+        RowSlicerMode mode = (RowSlicerMode) args.get("Mode");
 
         int width = image.getWidth();
         int height = image.getHeight();

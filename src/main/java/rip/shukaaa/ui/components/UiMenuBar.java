@@ -1,9 +1,13 @@
 package rip.shukaaa.ui.components;
 
 import rip.shukaaa.Main;
+import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.EffectRegister;
+import rip.shukaaa.effect.input.EffectInput;
+import rip.shukaaa.effect.input.inputs.ComboBox;
+import rip.shukaaa.effect.input.inputs.Slider;
+import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.enums.ImageFormats;
-import rip.shukaaa.enums.RowSlicerDirection;
-import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.exceptions.ImageNotFoundException;
 import rip.shukaaa.image.Pixel;
@@ -13,9 +17,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicSpinnerUI;
 import java.awt.*;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class UiMenuBar extends JMenuBar {
     public UiMenuBar(UiManager uiManager) {
@@ -49,7 +51,6 @@ public class UiMenuBar extends JMenuBar {
 
         JMenuItem save = new JMenuItem("Save");
         save.addActionListener(e -> {
-            // Open MEnu to ask for file extension and name
             JDialog saveDialog = createDialog("Save Image");
             JTextField fileName = new JTextField();
             fileName.setColumns(10);
@@ -117,180 +118,12 @@ public class UiMenuBar extends JMenuBar {
         });
         editMenu.add(redo);
 
-        //****************//
-        //* Effects Menu *//
-        //****************//
-
         JMenu effectsMenu = new JMenu("Effects");
         this.add(effectsMenu);
 
-        effectsMenu.add(createLabelTitle("Color Effects: "));
-
-        JMenuItem invert = new JMenuItem("Invert");
-        invert.addActionListener(e -> {
-            JDialog invertDialog = createDialog("Add Invert");
-            invertDialog.add(new JLabel("Threshold:"));
-            JSlider threshold = new JSlider(0, 256, 256);
-            invertDialog.add(threshold);
-            JButton apply = new JButton("Apply");
-            invertDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                try {
-                    Main.img.applyEffect("invert", new HashMap<>(Map.of("threshold", threshold.getValue())));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                invertDialog.dispose();
-            });
-            invertDialog.pack();
-            Main.updateImage(Main.img, uiManager);
-        });
-        effectsMenu.add(invert);
-
-        // Add Grayscale
-        JMenuItem grayscaleMenuItem = new JMenuItem("Grayscale");
-        grayscaleMenuItem.addActionListener(e -> {
-            JDialog grayscaleDialog = createDialog("Add Grayscale");
-            grayscaleDialog.add(new JLabel("Threshold:"));
-            JSlider threshold = new JSlider(0, 256, 256);
-            grayscaleDialog.add(threshold);
-            JButton apply = new JButton("Apply");
-            grayscaleDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                try {
-                    Main.img.applyEffect("grayscale", new HashMap<>(Map.of("threshold", threshold.getValue())));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                grayscaleDialog.dispose();
-            });
-            grayscaleDialog.pack();
-        });
-        effectsMenu.add(grayscaleMenuItem);
-
-        JMenuItem melt = new JMenuItem("Melt");
-        melt.addActionListener(e -> {
-            JDialog meltDialog = createDialog("Add Melt");
-            meltDialog.add(new JLabel("Threshold:"));
-            JSlider threshold = new JSlider(0, 256, 256);
-            meltDialog.add(threshold);
-            JColorChooser colorChooser = new JColorChooser();
-            meltDialog.add(colorChooser);
-            JButton apply = new JButton("Apply");
-            meltDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                Color color = colorChooser.getColor();
-                Pixel pixel = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-                try {
-                    Main.img.applyEffect("melt", new HashMap<>(Map.of("threshold", threshold.getValue(), "color", pixel)));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                meltDialog.dispose();
-            });
-            meltDialog.pack();
-        });
-        effectsMenu.add(melt);
-
-        effectsMenu.addSeparator();
-        effectsMenu.add(createLabelTitle("Distortion: "));
-
-        JMenuItem blackAndWhite = new JMenuItem("Black and White");
-        blackAndWhite.addActionListener(e -> {
-            JDialog blackAndWhiteDialog = createDialog("Add Black and White");
-            blackAndWhiteDialog.add(new JLabel("Threshold:"));
-            JSlider threshold = new JSlider(0, 256, 256);
-            blackAndWhiteDialog.add(threshold);
-            JButton apply = new JButton("Apply");
-            blackAndWhiteDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                try {
-                    Main.img.applyEffect("blackAndWhite", new HashMap<>(Map.of("threshold", threshold.getValue())));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                blackAndWhiteDialog.dispose();
-            });
-            blackAndWhiteDialog.pack();
-        });
-        effectsMenu.add(blackAndWhite);
-
-        JMenuItem rowSlicer = new JMenuItem("Row Slicer");
-        rowSlicer.addActionListener(e -> {
-            JDialog slicerDialog = createDialog("Add Row Slicer");
-            slicerDialog.add(new JLabel("Mode:"));
-            JComboBox<RowSlicerMode> mode = new JComboBox<>(RowSlicerMode.values());
-            slicerDialog.add(mode);
-            JComboBox<RowSlicerDirection> direction = new JComboBox<>(RowSlicerDirection.values());
-            slicerDialog.add(direction);
-            JButton apply = new JButton("Apply");
-            slicerDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                try {
-                    Main.img.applyEffect("rowSlicer", new HashMap<>(Map.of(
-                            "mode", Objects.requireNonNull(mode.getSelectedItem()),
-                            "direction", Objects.requireNonNull(direction.getSelectedItem()))
-                    ));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                slicerDialog.dispose();
-            });
-            slicerDialog.pack();
-        });
-        effectsMenu.add(rowSlicer);
-
-        JMenuItem shuffler = new JMenuItem("Cos Sin Shuffler");
-        shuffler.addActionListener(e -> {
-            JDialog shufflerDialog = createDialog("Add Shuffler");
-            shufflerDialog.add(new JLabel("Modulo:"));
-            JSlider modulo = new JSlider(0, 256, 100);
-            shufflerDialog.add(modulo);
-            JButton apply = new JButton("Apply");
-            shufflerDialog.add(apply);
-            apply.addActionListener(e1 -> {
-                try {
-                    Main.img.applyEffect("cosSinShuffler", new HashMap<>(Map.of("modulo", modulo.getValue())));
-                } catch (EffectOptionNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                Main.updateImage(Main.img, uiManager);
-                shufflerDialog.dispose();
-            });
-            shufflerDialog.pack();
-        });
-        effectsMenu.add(shuffler);
-
-        JMenuItem randomShuffler = new JMenuItem("Noise Shuffler");
-        randomShuffler.addActionListener(e -> {
-            try {
-                Main.img.applyEffect("randomShuffler", new HashMap<>());
-            } catch (EffectOptionNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            Main.updateImage(Main.img, uiManager);
-        });
-        effectsMenu.add(randomShuffler);
-
-        JMenuItem distortionFLip = new JMenuItem("Distortion Flip");
-        distortionFLip.addActionListener(e -> {
-            try {
-                Main.img.applyEffect("distortionFlip", new HashMap<>());
-            } catch (EffectOptionNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            Main.updateImage(Main.img, uiManager);
-        });
-        effectsMenu.add(distortionFLip);
-
-        //******************//
-        //* Transform Menu *//
-        //******************//
+        //**************//
+        //* Image Menu *//
+        //**************//
 
         JMenu imageMenu = new JMenu("Image");
         this.add(imageMenu);
@@ -316,22 +149,6 @@ public class UiMenuBar extends JMenuBar {
         });
         imageMenu.add(resize);
 
-        imageMenu.addSeparator();
-
-        imageMenu.add(createLabelTitle("Transform: "));
-
-        JMenuItem flip = new JMenuItem("Flip");
-        flip.addActionListener(e -> {
-            try {
-                Main.img.applyEffect("flip", new HashMap<>());
-            } catch (EffectOptionNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-            Main.updateImage(Main.img, uiManager);
-        });
-        imageMenu.add(flip);
-
-
         // Disable all menu items except for open
         for (int i = 1; i < this.getMenuCount(); i++) {
             JMenu menu = this.getMenu(i);
@@ -339,6 +156,112 @@ public class UiMenuBar extends JMenuBar {
         }
 
         save.setEnabled(false);
+
+        HashMap<String, Effect> effects = EffectRegister.effects;
+        HashMap<EffectCategory, ArrayList<JMenuItem>> items = new HashMap<>();
+
+        for (Map.Entry<String, Effect> entry : effects.entrySet()) {
+            String name = entry.getKey();
+            Effect effect = entry.getValue();
+
+            JMenuItem item = new JMenuItem(name);
+            item.addActionListener(e -> {
+                JDialog dialog = createDialog("Add " + name);
+                HashMap<String, JComponent> inputMap = new HashMap<>();
+
+                for (EffectInput input : effect.getEffectInputs()) {
+                    dialog.add(new JLabel(input.getTitle() + ":"));
+
+                    switch (input.getName()) {
+                        case "slider" -> {
+                            Slider sliderInput = (Slider) input;
+                            JSlider slider = new JSlider(sliderInput.getMin(), sliderInput.getMax(), sliderInput.getDefaultValue());
+                            dialog.add(slider);
+                            inputMap.put(input.getTitle(), slider);
+                        }
+                        case "colorchooser" -> {
+                            JColorChooser colorChooser = new JColorChooser();
+                            dialog.add(colorChooser);
+                            inputMap.put(input.getTitle(), colorChooser);
+                        }
+                        case "combobox" -> {
+                            ComboBox<Object> comboBoxInput = (ComboBox<Object>) input;
+                            JComboBox<Object> comboBox = new JComboBox<>(comboBoxInput.getValues());
+                            dialog.add(comboBox);
+                            inputMap.put(input.getTitle(), comboBox);
+                        }
+                    }
+                }
+
+                JButton apply = new JButton("Apply");
+                dialog.add(apply);
+
+                apply.addActionListener(e1 -> {
+                    HashMap<String, Object> options = new HashMap<>();
+                    for (Map.Entry<String, JComponent> entry1 : inputMap.entrySet()) {
+                        String key = entry1.getKey();
+                        JComponent value = entry1.getValue();
+
+                        switch (value.getClass().getSimpleName()) {
+                            case "JSlider" -> options.put(key, ((JSlider) value).getValue());
+                            case "JColorChooser" -> {
+                                Color color = ((JColorChooser) value).getColor();
+                                Pixel pixel = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
+                                options.put(key, pixel);
+                            }
+                            case "JComboBox" -> options.put(key, ((JComboBox<?>) value).getSelectedItem());
+                        }
+                    }
+
+                    try {
+                        Main.img.applyEffect(effect, options);
+                    } catch (EffectOptionNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Main.updateImage(Main.img, uiManager);
+                    dialog.dispose();
+                });
+
+                dialog.pack();
+            });
+
+            EffectCategory category = effect.getCategory();
+            if (items.containsKey(category)) {
+                items.get(category).add(item);
+            } else {
+                ArrayList<JMenuItem> list = new ArrayList<>();
+                list.add(item);
+                items.put(category, list);
+            }
+        }
+
+        for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
+            ArrayList<JMenuItem> list = entry.getValue();
+            list.sort(Comparator.comparing(JMenuItem::getText));
+        }
+
+        for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
+            EffectCategory category = entry.getKey();
+            ArrayList<JMenuItem> menuItems = entry.getValue();
+
+            if (Objects.equals(category.getMainCategory(), "Image")) {
+                if (imageMenu.getItemCount() != 0) {
+                    imageMenu.addSeparator();
+                }
+
+                imageMenu.add(createLabelTitle(category.getSubCategory() + ": "));
+                menuItems.forEach(imageMenu::add);
+            }
+
+            if (Objects.equals(category.getMainCategory(), "Effects")) {
+                if (effectsMenu.getItemCount() != 0) {
+                    effectsMenu.addSeparator();
+                }
+
+                effectsMenu.add(createLabelTitle(category.getSubCategory() + ": "));
+                menuItems.forEach(effectsMenu::add);
+            }
+        }
     }
 
     public void unlockMenu() {
@@ -349,8 +272,7 @@ public class UiMenuBar extends JMenuBar {
             for (int j = 0; j < menu.getItemCount(); j++) {
                 try {
                     menu.getItem(j).setEnabled(true);
-                } catch (NullPointerException ignored) {
-                }
+                } catch (NullPointerException ignored) {}
             }
         }
     }

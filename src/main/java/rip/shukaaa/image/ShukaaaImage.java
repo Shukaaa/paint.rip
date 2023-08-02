@@ -1,7 +1,7 @@
 package rip.shukaaa.image;
 
 import rip.shukaaa.effect.Effect;
-import rip.shukaaa.effect.EffectRegister;
+import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.enums.ImageFormats;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 
@@ -101,8 +101,15 @@ public class ShukaaaImage extends BufferedImage {
         }
     }
 
-    public void applyEffect(String effectName, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-        Effect effect = EffectRegister.getEffect(effectName);
+    public void applyEffect(Effect effect, HashMap<String, Object> args) throws EffectOptionNotFoundException {
+        EffectInput[] inputs = effect.getEffectInputs();
+
+        for (EffectInput input : inputs) {
+            if (!args.containsKey(input.getTitle())) {
+                throw new EffectOptionNotFoundException(input.getTitle());
+            }
+        }
+
         this.setPixels(effect.apply(this, args));
     }
 }

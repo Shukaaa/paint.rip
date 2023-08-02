@@ -1,6 +1,9 @@
 package rip.shukaaa.effect.effects;
 
 import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.input.EffectInput;
+import rip.shukaaa.effect.input.inputs.Slider;
+import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -8,15 +11,13 @@ import rip.shukaaa.image.ShukaaaImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CosSinShuffler implements Effect {
-    public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-        int modulo;
+public class CosSinShuffler extends Effect {
+    public CosSinShuffler() {
+        super(new EffectInput[]{new Slider(0, 255, 100, "Modulo")}, EffectCategory.DISTORTION);
+    }
 
-        try {
-            modulo = (int) args.get("modulo");
-        } catch (NullPointerException e) {
-            throw new EffectOptionNotFoundException("Modulo not found");
-        }
+    public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
+        int modulo = (int) args.get("Modulo");
 
         int width = image.getWidth();
         int height = image.getHeight();
