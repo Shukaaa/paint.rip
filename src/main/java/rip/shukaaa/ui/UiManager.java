@@ -20,7 +20,6 @@ public class UiManager {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(500, 500);
 
-        // set icon, it's located in src\main\resources\icon.png
         URL image = getClass().getResource("/paintrip.png");
         assert image != null;
         ImageIcon icon = new ImageIcon(image);
@@ -31,7 +30,7 @@ public class UiManager {
         this.imageLabel = new UiImage(image);
         this.frame.add(this.imageLabel);
 
-        frame.addWindowListener(new WindowAdapter() {
+        this.frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 Main.deleteTempImages();

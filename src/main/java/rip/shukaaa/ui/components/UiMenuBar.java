@@ -121,10 +121,6 @@ public class UiMenuBar extends JMenuBar {
         JMenu effectsMenu = new JMenu("Effects");
         this.add(effectsMenu);
 
-        //**************//
-        //* Image Menu *//
-        //**************//
-
         JMenu imageMenu = new JMenu("Image");
         this.add(imageMenu);
 
@@ -160,15 +156,28 @@ public class UiMenuBar extends JMenuBar {
         HashMap<String, Effect> effects = EffectRegister.effects;
         HashMap<EffectCategory, ArrayList<JMenuItem>> items = new HashMap<>();
 
+        // Create menu items for each effect and apply a dialog for each effect
         for (Map.Entry<String, Effect> entry : effects.entrySet()) {
             String name = entry.getKey();
             Effect effect = entry.getValue();
 
             JMenuItem item = new JMenuItem(name);
             item.addActionListener(e -> {
+                // If the effect has no inputs, apply it and return (no dialog needed)
+                if (effect.getEffectInputs().length == 0) {
+                    try {
+                        Main.img.applyEffect(effect, new HashMap<>());
+                    } catch (EffectOptionNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Main.updateImage(Main.img, uiManager);
+                    return;
+                }
+
                 JDialog dialog = createDialog("Add " + name);
                 HashMap<String, JComponent> inputMap = new HashMap<>();
 
+                // Create dialog inputs for each effect input
                 for (EffectInput input : effect.getEffectInputs()) {
                     dialog.add(new JLabel(input.getTitle() + ":"));
 
@@ -196,6 +205,7 @@ public class UiMenuBar extends JMenuBar {
                 JButton apply = new JButton("Apply");
                 dialog.add(apply);
 
+                // Apply the effect with the given options
                 apply.addActionListener(e1 -> {
                     HashMap<String, Object> options = new HashMap<>();
                     for (Map.Entry<String, JComponent> entry1 : inputMap.entrySet()) {
@@ -225,6 +235,7 @@ public class UiMenuBar extends JMenuBar {
                 dialog.pack();
             });
 
+            // Separate the menu items into categories to sort them later
             EffectCategory category = effect.getCategory();
             if (items.containsKey(category)) {
                 items.get(category).add(item);
@@ -235,12 +246,18 @@ public class UiMenuBar extends JMenuBar {
             }
         }
 
+        // Sort the menu items by name for each category
         for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
             ArrayList<JMenuItem> list = entry.getValue();
             list.sort(Comparator.comparing(JMenuItem::getText));
         }
 
-        for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
+        // Sort the subcategories by name
+        TreeMap<EffectCategory, ArrayList<JMenuItem>> sortedItems = new TreeMap<>(Comparator.comparing(EffectCategory::getSubCategory));
+        sortedItems.putAll(items);
+
+        // Add the menu items to the menu
+        for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : sortedItems.entrySet()) {
             EffectCategory category = entry.getKey();
             ArrayList<JMenuItem> menuItems = entry.getValue();
 
