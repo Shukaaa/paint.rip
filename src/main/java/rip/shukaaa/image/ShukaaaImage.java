@@ -37,15 +37,11 @@ public class ShukaaaImage extends BufferedImage {
             }
 
             pixels2d = new Pixel[this.getWidth()][this.getHeight()];
-            pixels3d = new Pixel[this.getWidth()][this.getHeight()][3];
 
             int i = 0;
             for (int x = 0; x < this.getWidth(); x++) {
                 for (int y = 0; y < this.getHeight(); y++, i++) {
                     pixels2d[x][y] = pixels.get(i);
-                    pixels3d[x][y][0] = pixels.get(i);
-                    pixels3d[x][y][1] = pixels.get(i);
-                    pixels3d[x][y][2] = pixels.get(i);
                 }
             }
         }
