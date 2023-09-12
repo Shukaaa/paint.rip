@@ -3,6 +3,7 @@ package rip.shukaaa.enums;
 public enum EffectCategory {
     EFFECTS("Effects", "Basics"),
     DISTORTION("Effects", "Distortion"),
+    GENERATE("Effects", "Generate"),
     TRANSFORM("Image", "Transform");
 
     private final String mainCategory;

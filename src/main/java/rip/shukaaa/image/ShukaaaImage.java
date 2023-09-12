@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class ShukaaaImage extends BufferedImage {
     private ArrayList<Pixel> pixels;
-    private ArrayList<Pixel> pixelBackup;
+    private Pixel[][] pixels2d;
 
     public ShukaaaImage(BufferedImage img) {
         super(img.getWidth(), img.getHeight(), img.getType());
@@ -35,7 +35,19 @@ public class ShukaaaImage extends BufferedImage {
                     pixels.add(new Pixel(this.getRGB(x, y)));
                 }
             }
-            pixelBackup = new ArrayList<>(pixels);
+
+            pixels2d = new Pixel[this.getWidth()][this.getHeight()];
+            pixels3d = new Pixel[this.getWidth()][this.getHeight()][3];
+
+            int i = 0;
+            for (int x = 0; x < this.getWidth(); x++) {
+                for (int y = 0; y < this.getHeight(); y++, i++) {
+                    pixels2d[x][y] = pixels.get(i);
+                    pixels3d[x][y][0] = pixels.get(i);
+                    pixels3d[x][y][1] = pixels.get(i);
+                    pixels3d[x][y][2] = pixels.get(i);
+                }
+            }
         }
     }
 
@@ -44,8 +56,12 @@ public class ShukaaaImage extends BufferedImage {
         return pixels;
     }
 
+    public Pixel[][] getPixels2d() {
+        checkPixels();
+        return pixels2d;
+    }
+
     public void setPixels(ArrayList<Pixel> pixels) {
-        this.pixelBackup = this.pixels;
         this.pixels = pixels;
 
         // Update image
@@ -90,15 +106,11 @@ public class ShukaaaImage extends BufferedImage {
     }
 
     public void undo() {
-        if (pixelBackup != null) {
-            this.setPixels(pixelBackup);
-        }
+
     }
 
     public void redo() {
-        if (pixelBackup != null) {
-            this.setPixels(pixels);
-        }
+
     }
 
     public void applyEffect(Effect effect, HashMap<String, Object> args) throws EffectOptionNotFoundException {

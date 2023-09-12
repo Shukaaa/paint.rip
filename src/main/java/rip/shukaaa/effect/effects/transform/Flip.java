@@ -1,4 +1,4 @@
-package rip.shukaaa.effect.effects;
+package rip.shukaaa.effect.effects.transform;
 
 import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.input.EffectInput;
