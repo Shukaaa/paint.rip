@@ -1,14 +1,8 @@
 package rip.shukaaa.ui.components;
 
-import rip.shukaaa.Main;
 import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.EffectRegister;
-import rip.shukaaa.effect.input.EffectInput;
-import rip.shukaaa.effect.input.inputs.ComboBox;
-import rip.shukaaa.effect.input.inputs.Slider;
 import rip.shukaaa.enums.EffectCategory;
-import rip.shukaaa.exceptions.EffectOptionNotFoundException;
-import rip.shukaaa.image.Pixel;
 import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
@@ -21,7 +15,6 @@ import rip.shukaaa.ui.logic.menu.items.image.ResizeMenuItem;
 import rip.shukaaa.utils.UiUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.*;
 
 public class UiMenuBar extends JMenuBar {
@@ -83,60 +76,43 @@ public class UiMenuBar extends JMenuBar {
 
         this.disableMenu(save);
 
-
         HashMap<String, Effect> effects = EffectRegister.effects;
         HashMap<EffectCategory, ArrayList<JMenuItem>> items = new HashMap<>();
 
         // Create menu items for each effect and apply a dialog for each effect
-        for (Map.Entry<String, Effect> entry : effects.entrySet()) {
-            String name = entry.getKey();
-            Effect effect = entry.getValue();
+        for (Map.Entry<String, Effect> effectEntry : effects.entrySet()) {
+            String name = effectEntry.getKey();
+            Effect effect = effectEntry.getValue();
 
             JMenuItem item = new EffectsMenuItem(name, effect, uiManager).getItem();
-
-            // Separate the menu items into categories to sort them later
             EffectCategory category = effect.getCategory();
+
             if (items.containsKey(category)) {
                 items.get(category).add(item);
-            } else {
-                ArrayList<JMenuItem> list = new ArrayList<>();
-                list.add(item);
-                items.put(category, list);
+                continue;
             }
+
+            ArrayList<JMenuItem> menuItemList = new ArrayList<>();
+            menuItemList.add(item);
+            items.put(category, menuItemList);
         }
 
-        // Sort the menu items by name for each category
+        // Sort the menu items alphabetically
         for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
             ArrayList<JMenuItem> list = entry.getValue();
             list.sort(Comparator.comparing(JMenuItem::getText));
         }
 
-        // Sort the subcategories by name
-        TreeMap<EffectCategory, ArrayList<JMenuItem>> sortedItems = new TreeMap<>(Comparator.comparing(EffectCategory::getSubCategory));
+        // Sort the categories alphabetically
+        TreeMap<EffectCategory, ArrayList<JMenuItem>> sortedItems
+                = new TreeMap<>(Comparator.comparing(EffectCategory::getSubCategory));
         sortedItems.putAll(items);
 
-        // Add the menu items to the menu
         for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : sortedItems.entrySet()) {
             EffectCategory category = entry.getKey();
             ArrayList<JMenuItem> menuItems = entry.getValue();
 
-            if (Objects.equals(category.getMainCategory(), "Image")) {
-                if (imageMenu.getItemCount() != 0) {
-                    imageMenu.addSeparator();
-                }
-
-                imageMenu.add(UiUtils.createLabelTitle(category.getSubCategory() + ": "));
-                menuItems.forEach(imageMenu::add);
-            }
-
-            if (Objects.equals(category.getMainCategory(), "Effects")) {
-                if (effectsMenu.getItemCount() != 0) {
-                    effectsMenu.addSeparator();
-                }
-
-                effectsMenu.add(UiUtils.createLabelTitle(category.getSubCategory() + ": "));
-                menuItems.forEach(effectsMenu::add);
-            }
+            this.addMenuItems(menuItems, category, imageMenu, effectsMenu);
         }
     }
 
@@ -159,5 +135,25 @@ public class UiMenuBar extends JMenuBar {
             menu.setEnabled(false);
         }
         save.setEnabled(false);
+    }
+
+    private void addMenuItems(ArrayList<JMenuItem> menuItems, EffectCategory category, JMenu imageMenu, JMenu effectsMenu) {
+        if (Objects.equals(category.getMainCategory(), "Image")) {
+            if (imageMenu.getItemCount() != 0) {
+                imageMenu.addSeparator();
+            }
+
+            imageMenu.add(UiUtils.createLabelTitle(category.getSubCategory() + ": "));
+            menuItems.forEach(imageMenu::add);
+        }
+
+        if (Objects.equals(category.getMainCategory(), "Effects")) {
+            if (effectsMenu.getItemCount() != 0) {
+                effectsMenu.addSeparator();
+            }
+
+            effectsMenu.add(UiUtils.createLabelTitle(category.getSubCategory() + ": "));
+            menuItems.forEach(effectsMenu::add);
+        }
     }
 }
