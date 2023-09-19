@@ -16,7 +16,7 @@ public class TriangleRuler extends Effect {
     public TriangleRuler() {
         super(new EffectInput[]{
                 new Slider(0, 100, 20, "Intensity"),
-        }, EffectCategory.EFFECTS);
+        }, EffectCategory.DISTORTION);
     }
 
     @Override

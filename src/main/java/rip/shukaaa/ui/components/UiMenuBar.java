@@ -8,12 +8,12 @@ import rip.shukaaa.effect.input.inputs.ComboBox;
 import rip.shukaaa.effect.input.inputs.Slider;
 import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
-import rip.shukaaa.exceptions.ImageNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.UndoMenuItem;
+import rip.shukaaa.ui.logic.menu.items.effects.EffectsMenuItem;
 import rip.shukaaa.ui.logic.menu.items.file.ExitMenuItem;
 import rip.shukaaa.ui.logic.menu.items.file.OpenMenuItem;
 import rip.shukaaa.ui.logic.menu.items.file.SaveMenuItem;
@@ -92,79 +92,7 @@ public class UiMenuBar extends JMenuBar {
             String name = entry.getKey();
             Effect effect = entry.getValue();
 
-            JMenuItem item = new JMenuItem(name);
-            item.addActionListener(e -> {
-                // If the effect has no inputs, apply it and return (no dialog needed)
-                if (effect.getEffectInputs().length == 0) {
-                    try {
-                        Main.img.applyEffect(effect, new HashMap<>());
-                    } catch (EffectOptionNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    Main.updateImage(Main.img, uiManager);
-                    return;
-                }
-
-                JDialog dialog = UiUtils.createDialog("Add " + name);
-                HashMap<String, JComponent> inputMap = new HashMap<>();
-
-                // Create dialog inputs for each effect input
-                for (EffectInput input : effect.getEffectInputs()) {
-                    dialog.add(new JLabel(input.getTitle() + ":"));
-
-                    switch (input.getName()) {
-                        case "slider" -> {
-                            Slider sliderInput = (Slider) input;
-                            JSlider slider = new JSlider(sliderInput.getMin(), sliderInput.getMax(), sliderInput.getDefaultValue());
-                            dialog.add(slider);
-                            inputMap.put(input.getTitle(), slider);
-                        }
-                        case "colorchooser" -> {
-                            JColorChooser colorChooser = new JColorChooser();
-                            dialog.add(colorChooser);
-                            inputMap.put(input.getTitle(), colorChooser);
-                        }
-                        case "combobox" -> {
-                            ComboBox<Object> comboBoxInput = (ComboBox<Object>) input;
-                            JComboBox<Object> comboBox = new JComboBox<>(comboBoxInput.getValues());
-                            dialog.add(comboBox);
-                            inputMap.put(input.getTitle(), comboBox);
-                        }
-                    }
-                }
-
-                JButton apply = new JButton("Apply");
-                dialog.add(apply);
-
-                // Apply the effect with the given options
-                apply.addActionListener(e1 -> {
-                    HashMap<String, Object> options = new HashMap<>();
-                    for (Map.Entry<String, JComponent> entry1 : inputMap.entrySet()) {
-                        String key = entry1.getKey();
-                        JComponent value = entry1.getValue();
-
-                        switch (value.getClass().getSimpleName()) {
-                            case "JSlider" -> options.put(key, ((JSlider) value).getValue());
-                            case "JColorChooser" -> {
-                                Color color = ((JColorChooser) value).getColor();
-                                Pixel pixel = new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-                                options.put(key, pixel);
-                            }
-                            case "JComboBox" -> options.put(key, ((JComboBox<?>) value).getSelectedItem());
-                        }
-                    }
-
-                    try {
-                        Main.img.applyEffect(effect, options);
-                    } catch (EffectOptionNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    Main.updateImage(Main.img, uiManager);
-                    dialog.dispose();
-                });
-
-                dialog.pack();
-            });
+            JMenuItem item = new EffectsMenuItem(name, effect, uiManager).getItem();
 
             // Separate the menu items into categories to sort them later
             EffectCategory category = effect.getCategory();
