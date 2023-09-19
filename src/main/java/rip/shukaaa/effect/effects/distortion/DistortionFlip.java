@@ -12,21 +12,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DistortionFlip extends Effect {
-    public DistortionFlip() {
-        super(new EffectInput[0], EffectCategory.DISTORTION);
-    }
+		public DistortionFlip() {
+				super(new EffectInput[0], EffectCategory.DISTORTION);
+		}
 
-    public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-        ArrayList<Pixel> pixels = new ArrayList<>();
-        for (int x = 0; x < image.getHeight(); x++) {
-            for (int y = 0; y < image.getWidth(); y++) {
-                pixels.add(new Pixel(image.getRGB(y, x)));
-            }
-        }
+		public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
+				ArrayList<Pixel> pixels = new ArrayList<>();
+				for (int x = 0; x < image.getHeight(); x++) {
+						for (int y = 0; y < image.getWidth(); y++) {
+								pixels.add(new Pixel(image.getRGB(y, x)));
+						}
+				}
 
-        ShukaaaImage temp = new ShukaaaImage(image.getWidth(), image.getHeight());
-        temp.setPixels(pixels);
+				ShukaaaImage temp = new ShukaaaImage(image.getWidth(), image.getHeight());
+				temp.setPixels(pixels);
 
-        return EffectRegister.getEffect("Flip").apply(temp, new HashMap<>());
-    }
+				return EffectRegister.getEffect("Flip").apply(temp, new HashMap<>());
+		}
 }

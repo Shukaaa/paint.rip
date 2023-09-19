@@ -3,15 +3,15 @@ package rip.shukaaa.effect.input.inputs;
 import rip.shukaaa.effect.input.EffectInput;
 
 public class ComboBox<E> extends EffectInput {
-    E[] values;
+		E[] values;
 
-    public ComboBox(E[] values,String title) {
-        super("combobox", title);
+		public ComboBox(E[] values, String title) {
+				super("combobox", title);
 
-        this.values = values;
-    }
+				this.values = values;
+		}
 
-    public E[] getValues() {
-        return values;
-    }
+		public E[] getValues() {
+				return values;
+		}
 }
