@@ -2,9 +2,8 @@ package rip.shukaaa.effect;
 
 import rip.shukaaa.effect.effects.basic.*;
 import rip.shukaaa.effect.effects.distortion.*;
-import rip.shukaaa.effect.effects.generate.Border;
-import rip.shukaaa.effect.effects.generate.Vignetting;
-import rip.shukaaa.effect.effects.transform.Flip;
+import rip.shukaaa.effect.effects.generate.*;
+import rip.shukaaa.effect.effects.transform.*;
 
 import java.util.HashMap;
 
@@ -25,7 +24,9 @@ public final class EffectRegister {
 				put("Triangle Ruler", new TriangleRuler());
 
 				// Transform
-				put("Flip", new Flip());
+				put("Vertically Flip", new VerticalFlip());
+				put("Horizontally Flip", new HorizontalFlip());
+				put("180° Flip", new Degrees180Flip());
 
 				// Generate
 				put("Vignette", new Vignetting());

@@ -6,22 +6,30 @@ import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
+import rip.shukaaa.utils.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Flip extends Effect {
-		public Flip() {
+public class HorizontalFlip extends Effect {
+		public HorizontalFlip() {
 				super(new EffectInput[0], EffectCategory.TRANSFORM);
 		}
 
+		@Override
 		public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-				ArrayList<Pixel> pixels = image.getPixels();
+				Pixel[][] pixels2d = image.getPixels2d();
+				int width = image.getWidth();
+				int height = image.getHeight();
 
-				ArrayList<Pixel> reversed = new ArrayList<>();
-				for (int i = pixels.size() - 1; i >= 0; i--) {
-						reversed.add(pixels.get(i));
+				for (int x = 0; x < width / 2; x++) {
+						for (int y = 0; y < height; y++) {
+								Pixel temp = pixels2d[x][y];
+								pixels2d[x][y] = pixels2d[width - x - 1][y];
+								pixels2d[width - x - 1][y] = temp;
+						}
 				}
-				return reversed;
+
+				return ImageUtils.pixel2dTo1d(pixels2d);
 		}
 }
