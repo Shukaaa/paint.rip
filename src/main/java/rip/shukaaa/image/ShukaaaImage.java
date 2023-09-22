@@ -101,14 +101,6 @@ public class ShukaaaImage extends BufferedImage {
 				resized.export(name, format);
 		}
 
-		public void undo() {
-
-		}
-
-		public void redo() {
-
-		}
-
 		public void applyEffect(Effect effect, HashMap<String, Object> args) throws EffectOptionNotFoundException {
 				EffectInput[] inputs = effect.getEffectInputs();
 
