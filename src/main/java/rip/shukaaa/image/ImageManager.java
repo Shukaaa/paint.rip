@@ -44,6 +44,9 @@ public class ImageManager {
 				DataStore.setTempImageCount("0");
 				File tempImage = new File("./temp/tempImage-0.png");
 				setImg(tempImage);
+
+				DataStore.setPossibleRedoCount(0);
+				uiManager.disableRedo();
 		}
 
 		public static void undo() throws ImageNotFoundException {

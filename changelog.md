@@ -1,5 +1,6 @@
-### 1.3
+### 2.0
 - More efficient temporary file handling
+- Added Undo & Redo
 - Added Vertical and Horizontal Flip
 - Added 180-degree rotation
 - Removed Distortion Flip Effect & Flip Effect
