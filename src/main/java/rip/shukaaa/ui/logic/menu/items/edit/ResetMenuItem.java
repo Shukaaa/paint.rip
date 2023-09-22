@@ -1,7 +1,7 @@
 package rip.shukaaa.ui.logic.menu.items.edit;
 
-import rip.shukaaa.Main;
 import rip.shukaaa.exceptions.ImageNotFoundException;
+import rip.shukaaa.image.ImageManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class ResetMenuItem extends MenuItem {
 				JMenuItem reset = new JMenuItem("Reset");
 				reset.addActionListener(e -> {
 						try {
-								Main.resetImage();
+								ImageManager.resetImage();
 						} catch (ImageNotFoundException ex) {
 								throw new RuntimeException(ex);
 						}

@@ -1,7 +1,7 @@
 package rip.shukaaa.ui.logic.menu.items.file;
 
-import rip.shukaaa.Main;
 import rip.shukaaa.exceptions.ImageNotFoundException;
+import rip.shukaaa.image.ImageManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class OpenMenuItem extends MenuItem {
 						}
 
 						try {
-								Main.setImg(selectedFile);
+								ImageManager.setImg(selectedFile);
 						} catch (ImageNotFoundException ex) {
 								throw new RuntimeException(ex);
 						}

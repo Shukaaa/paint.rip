@@ -1,11 +1,11 @@
 package rip.shukaaa.ui.logic.menu.items.effects;
 
-import rip.shukaaa.Main;
 import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.ComboBox;
 import rip.shukaaa.effect.input.inputs.Slider;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
+import rip.shukaaa.image.ImageManager;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
 import rip.shukaaa.stores.DataStore;
@@ -107,7 +107,7 @@ public class EffectsMenuItem extends MenuItem {
 				} catch (EffectOptionNotFoundException ex) {
 						throw new RuntimeException(ex);
 				}
-				Main.updateImage(img);
+				ImageManager.updateImage(img);
 				DataStore.setImg(img);
 		}
 }

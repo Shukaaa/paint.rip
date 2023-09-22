@@ -1,6 +1,6 @@
 package rip.shukaaa.ui;
 
-import rip.shukaaa.Main;
+import rip.shukaaa.image.ImageManager;
 import rip.shukaaa.ui.components.UiImage;
 import rip.shukaaa.ui.components.UiMenuBar;
 
@@ -33,7 +33,7 @@ public class UiManager {
 				this.frame.addWindowListener(new WindowAdapter() {
 						@Override
 						public void windowClosing(WindowEvent e) {
-								Main.deleteTempImages();
+								ImageManager.deleteTempImages();
 						}
 				});
 

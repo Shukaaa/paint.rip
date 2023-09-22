@@ -1,6 +1,6 @@
 package rip.shukaaa.ui.logic.menu.items.edit;
 
-import rip.shukaaa.Main;
+import rip.shukaaa.image.ImageManager;
 import rip.shukaaa.stores.DataStore;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 
@@ -12,7 +12,7 @@ public class RedoMenuItem extends MenuItem {
 				JMenuItem redo = new JMenuItem("Redo");
 				redo.addActionListener(e -> {
 						DataStore.getImg().redo();
-						Main.updateImage(DataStore.getImg());
+						ImageManager.updateImage(DataStore.getImg());
 				});
 				return redo;
 		}
