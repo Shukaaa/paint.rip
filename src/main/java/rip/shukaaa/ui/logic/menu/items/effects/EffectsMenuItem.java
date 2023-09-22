@@ -9,7 +9,6 @@ import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
 import rip.shukaaa.stores.DataStore;
-import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import rip.shukaaa.utils.UiUtils;
 
@@ -21,12 +20,10 @@ import java.util.Map;
 public class EffectsMenuItem extends MenuItem {
 		private final String name;
 		private final Effect effect;
-		private final UiManager uiManager;
 
-		public EffectsMenuItem(String name, Effect effect, UiManager uiManager) {
+		public EffectsMenuItem(String name, Effect effect) {
 				this.name = name;
 				this.effect = effect;
-				this.uiManager = uiManager;
 		}
 
 		@Override
@@ -110,7 +107,7 @@ public class EffectsMenuItem extends MenuItem {
 				} catch (EffectOptionNotFoundException ex) {
 						throw new RuntimeException(ex);
 				}
-				Main.updateImage(img, this.uiManager);
+				Main.updateImage(img);
 				DataStore.setImg(img);
 		}
 }

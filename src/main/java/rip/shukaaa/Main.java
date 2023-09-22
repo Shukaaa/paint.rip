@@ -18,7 +18,7 @@ public class Main {
 				uiManager = new UiManager("paint.rip");
 		}
 
-		public static void updateImage(ShukaaaImage img, UiManager uiManager) {
+		public static void updateImage(ShukaaaImage img) {
 				String tempImageCount = DataStore.getTempImageCount();
 
 				DataStore.setTempImageCount(String.valueOf(Integer.parseInt(tempImageCount) + 1));
@@ -38,10 +38,9 @@ public class Main {
 						}
 				}
 
-				DataStore.setTempImageCount("1");
-				uiManager.updateImage("./temp/tempImage-0.png");
+				DataStore.setTempImageCount("0");
 				File tempImage = new File("./temp/tempImage-0.png");
-				DataStore.setImg(getImg(tempImage));
+				setImg(tempImage);
 		}
 
 		private static ShukaaaImage getImg(File f) throws ImageNotFoundException {

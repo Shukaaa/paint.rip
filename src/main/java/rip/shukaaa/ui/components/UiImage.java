@@ -22,6 +22,6 @@ public class UiImage extends JLabel {
 						}
 				}
 
-				return icon;
+				return new ImageIcon(icon.getImage().getScaledInstance(icon.getIconWidth(), icon.getIconHeight(), java.awt.Image.SCALE_SMOOTH));
 		}
 }

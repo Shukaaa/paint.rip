@@ -3,7 +3,6 @@ package rip.shukaaa.ui.components;
 import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.EffectRegister;
 import rip.shukaaa.enums.EffectCategory;
-import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.UndoMenuItem;
@@ -18,7 +17,7 @@ import javax.swing.*;
 import java.util.*;
 
 public class UiMenuBar extends JMenuBar {
-		public UiMenuBar(UiManager uiManager) {
+		public UiMenuBar() {
 				//*************//
 				//* File Menu *//
 				//*************//
@@ -43,8 +42,8 @@ public class UiMenuBar extends JMenuBar {
 				this.add(editMenu);
 
 				JMenuItem reset = new ResetMenuItem().getItem();
-				JMenuItem undo = new UndoMenuItem(uiManager).getItem();
-				JMenuItem redo = new RedoMenuItem(uiManager).getItem();
+				JMenuItem undo = new UndoMenuItem().getItem();
+				JMenuItem redo = new RedoMenuItem().getItem();
 
 				editMenu.add(reset);
 				editMenu.addSeparator();
@@ -67,7 +66,7 @@ public class UiMenuBar extends JMenuBar {
 				this.add(imageMenu);
 
 				JLabel propertiesLabel = UiUtils.createLabelTitle("Properties: ");
-				JMenuItem resize = new ResizeMenuItem(uiManager).getItem();
+				JMenuItem resize = new ResizeMenuItem().getItem();
 
 				imageMenu.add(propertiesLabel);
 				imageMenu.add(resize);
@@ -84,7 +83,7 @@ public class UiMenuBar extends JMenuBar {
 						String name = effectEntry.getKey();
 						Effect effect = effectEntry.getValue();
 
-						JMenuItem item = new EffectsMenuItem(name, effect, uiManager).getItem();
+						JMenuItem item = new EffectsMenuItem(name, effect).getItem();
 						EffectCategory category = effect.getCategory();
 
 						if (items.containsKey(category)) {

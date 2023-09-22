@@ -3,19 +3,12 @@ package rip.shukaaa.ui.logic.menu.items.image;
 import rip.shukaaa.Main;
 import rip.shukaaa.image.ShukaaaImage;
 import rip.shukaaa.stores.DataStore;
-import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import rip.shukaaa.utils.UiUtils;
 
 import javax.swing.*;
 
 public class ResizeMenuItem extends MenuItem {
-		private final UiManager uiManager;
-
-		public ResizeMenuItem(UiManager uiManager) {
-				this.uiManager = uiManager;
-		}
-
 		@Override
 		protected JMenuItem createItem() {
 				JMenuItem resize = new JMenuItem("Resize");
@@ -31,7 +24,7 @@ public class ResizeMenuItem extends MenuItem {
 						resizeDialog.add(apply);
 						apply.addActionListener(e1 -> {
 								ShukaaaImage img = DataStore.getImg().resizedImage((int) widthSpinner.getValue(), (int) heightSpinner.getValue());
-								Main.updateImage(img, uiManager);
+								Main.updateImage(img);
 								resizeDialog.dispose();
 						});
 						resizeDialog.pack();
