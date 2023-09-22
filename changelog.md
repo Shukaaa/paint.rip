@@ -1,4 +1,5 @@
 ### 1.3
+- More efficient temporary file handling
 - Added Vertical and Horizontal Flip
 - Added 180-degree rotation
 - Removed Distortion Flip Effect & Flip Effect

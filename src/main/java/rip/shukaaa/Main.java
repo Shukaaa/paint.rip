@@ -24,6 +24,7 @@ public class Main {
 				DataStore.setTempImageCount(String.valueOf(Integer.parseInt(tempImageCount) + 1));
 				img.export("./temp/tempImage-" + tempImageCount, ImageFormats.PNG);
 				uiManager.updateImage("./temp/tempImage-" + tempImageCount + ".png");
+				DataStore.setImg(img);
 		}
 
 		public static void resetImage() throws ImageNotFoundException {
