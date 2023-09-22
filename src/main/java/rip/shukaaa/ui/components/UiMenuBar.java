@@ -127,6 +127,25 @@ public class UiMenuBar extends JMenuBar {
 								}
 						}
 				}
+
+				this.getMenu(1).getItem(2).setEnabled(false);
+				this.getMenu(1).getItem(3).setEnabled(false);
+		}
+
+		public void enableUndo() {
+				this.getMenu(1).getItem(2).setEnabled(true);
+		}
+
+		public void enableRedo() {
+				this.getMenu(1).getItem(3).setEnabled(true);
+		}
+
+		public void disableUndo() {
+				this.getMenu(1).getItem(2).setEnabled(false);
+		}
+
+		public void disableRedo() {
+				this.getMenu(1).getItem(3).setEnabled(false);
 		}
 
 		private void disableMenu(JMenuItem save) {

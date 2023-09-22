@@ -53,6 +53,7 @@ public class UiManager {
 		public void updateImage(String path) {
 				if (label != null) {
 						this.frame.remove(label);
+						this.label = null;
 						this.menuBar.unlockMenu();
 				}
 
@@ -65,5 +66,21 @@ public class UiManager {
 				this.frame.validate();
 				this.frame.repaint();
 				this.frame.pack();
+		}
+
+		public void enableUndo() {
+				this.menuBar.enableUndo();
+		}
+
+		public void disableUndo() {
+				this.menuBar.disableUndo();
+		}
+
+		public void enableRedo() {
+				this.menuBar.enableRedo();
+		}
+
+		public void disableRedo() {
+				this.menuBar.disableRedo();
 		}
 }

@@ -20,6 +20,10 @@ public class ImageManager {
 				img.export("./temp/tempImage-" + tempImageCount, ImageFormats.PNG);
 				uiManager.updateImage("./temp/tempImage-" + tempImageCount + ".png");
 				DataStore.setImg(img);
+
+				if (Integer.parseInt(tempImageCount) >= 1) {
+						uiManager.enableUndo();
+				}
 		}
 
 		public static void resetImage() throws ImageNotFoundException {
@@ -36,6 +40,17 @@ public class ImageManager {
 				DataStore.setTempImageCount("0");
 				File tempImage = new File("./temp/tempImage-0.png");
 				setImg(tempImage);
+		}
+
+		public static void undo() throws ImageNotFoundException {
+				String tempImageCount = DataStore.getTempImageCount();
+				int tempImageCountInt = Integer.parseInt(tempImageCount);
+
+				if (tempImageCountInt >= 1) {
+						DataStore.setTempImageCount(String.valueOf(tempImageCountInt - 2));
+						File tempImage = new File("./temp/tempImage-" + (tempImageCountInt - 2) + ".png");
+						setImg(tempImage);
+				}
 		}
 
 		private static ShukaaaImage getImg(File f) throws ImageNotFoundException {
@@ -57,6 +72,11 @@ public class ImageManager {
 						if (!tempFolder.mkdir()) {
 								System.out.println("Failed to create temp folder");
 						}
+				}
+
+				if (Integer.parseInt(tempImageCount) == 0) {
+						System.out.println("tempImageCount == 0");
+						uiManager.disableUndo();
 				}
 
 				img.export("./temp/tempImage-" + tempImageCount, ImageFormats.PNG);
