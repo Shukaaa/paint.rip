@@ -7,6 +7,8 @@ import rip.shukaaa.effect.input.inputs.ComboBox;
 import rip.shukaaa.effect.input.inputs.Slider;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
+import rip.shukaaa.image.ShukaaaImage;
+import rip.shukaaa.stores.DataStore;
 import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import rip.shukaaa.utils.UiUtils;
@@ -102,11 +104,13 @@ public class EffectsMenuItem extends MenuItem {
 		}
 
 		private void applyEffect(HashMap<String, Object> options) {
+				ShukaaaImage img = DataStore.getImg();
 				try {
-						Main.img.applyEffect(this.effect, options);
+						img.applyEffect(this.effect, options);
 				} catch (EffectOptionNotFoundException ex) {
 						throw new RuntimeException(ex);
 				}
-				Main.updateImage(Main.img, this.uiManager);
+				Main.updateImage(img, this.uiManager);
+				DataStore.setImg(img);
 		}
 }

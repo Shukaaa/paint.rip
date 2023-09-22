@@ -1,3 +1,13 @@
+### 1.3
+- Added Vertical and Horizontal Flip
+- Added 180-degree rotation
+- Removed Distortion Flip Effect & Flip Effect
+- Added TriangleRuler Effect
+- Added Line Effect
+- Added new Effect Category: `Generate`
+  - Added new Effect: `Border`
+  - Added new Effect: `Vignette`
+
 ### 1.2
 - Added Noise Shuffler Effect
 - Added Distortion Flip Effect

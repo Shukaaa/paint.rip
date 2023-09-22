@@ -26,7 +26,7 @@ public class UiMenuBar extends JMenuBar {
 				JMenu fileMenu = new JMenu("File");
 				this.add(fileMenu);
 
-				JMenuItem open = new OpenMenuItem(uiManager).getItem();
+				JMenuItem open = new OpenMenuItem().getItem();
 				JMenuItem save = new SaveMenuItem().getItem();
 				JMenuItem exit = new ExitMenuItem().getItem();
 
@@ -42,7 +42,7 @@ public class UiMenuBar extends JMenuBar {
 				JMenu editMenu = new JMenu("Edit");
 				this.add(editMenu);
 
-				JMenuItem reset = new ResetMenuItem(uiManager).getItem();
+				JMenuItem reset = new ResetMenuItem().getItem();
 				JMenuItem undo = new UndoMenuItem(uiManager).getItem();
 				JMenuItem redo = new RedoMenuItem(uiManager).getItem();
 

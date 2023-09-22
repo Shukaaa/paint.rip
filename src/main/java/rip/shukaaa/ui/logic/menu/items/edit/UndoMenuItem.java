@@ -1,6 +1,7 @@
 package rip.shukaaa.ui.logic.menu.items.edit;
 
 import rip.shukaaa.Main;
+import rip.shukaaa.stores.DataStore;
 import rip.shukaaa.ui.UiManager;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 
@@ -17,8 +18,8 @@ public class UndoMenuItem extends MenuItem {
 		protected JMenuItem createItem() {
 				JMenuItem undo = new JMenuItem("Undo");
 				undo.addActionListener(e -> {
-						Main.img.undo();
-						Main.updateImage(Main.img, uiManager);
+						DataStore.getImg().undo();
+						Main.updateImage(DataStore.getImg(), uiManager);
 				});
 				return undo;
 		}

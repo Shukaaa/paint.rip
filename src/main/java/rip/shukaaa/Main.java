@@ -3,6 +3,7 @@ package rip.shukaaa;
 import rip.shukaaa.enums.ImageFormats;
 import rip.shukaaa.exceptions.ImageNotFoundException;
 import rip.shukaaa.image.ShukaaaImage;
+import rip.shukaaa.stores.DataStore;
 import rip.shukaaa.ui.UiManager;
 
 import javax.imageio.ImageIO;
@@ -11,29 +12,41 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-		public static File backupImage = null;
-		public static ShukaaaImage img = null;
-		public static String tempImageCount = "0";
-		public static UiManager uiManager;
+		private static UiManager uiManager;
 
 		public static void main(String[] args) {
 				uiManager = new UiManager("paint.rip");
 		}
 
 		public static void updateImage(ShukaaaImage img, UiManager uiManager) {
-				if (!new File("./temp/tempImage-" + tempImageCount + ".png").delete()) {
-						System.out.println("Failed to delete temp image");
-				}
-				tempImageCount = String.valueOf(Integer.parseInt(tempImageCount) + 1);
+				String tempImageCount = DataStore.getTempImageCount();
+
+				DataStore.setTempImageCount(String.valueOf(Integer.parseInt(tempImageCount) + 1));
 				img.export("./temp/tempImage-" + tempImageCount, ImageFormats.PNG);
 				uiManager.updateImage("./temp/tempImage-" + tempImageCount + ".png");
 		}
 
-		public static ShukaaaImage getImg(File f) throws ImageNotFoundException {
+		public static void resetImage() throws ImageNotFoundException {
+				String tempImageCount = DataStore.getTempImageCount();
+				int tempImageCountInt = Integer.parseInt(tempImageCount);
+
+				for (int i = 1; i < tempImageCountInt; i++) {
+						File tempImage = new File("./temp/tempImage-" + i + ".png");
+						if (!tempImage.delete()) {
+								System.out.println("Failed to delete temp image");
+						}
+				}
+
+				DataStore.setTempImageCount("1");
+				uiManager.updateImage("./temp/tempImage-0.png");
+				File tempImage = new File("./temp/tempImage-0.png");
+				DataStore.setImg(getImg(tempImage));
+		}
+
+		private static ShukaaaImage getImg(File f) throws ImageNotFoundException {
 				try {
 						BufferedImage buffImg = ImageIO.read(f);
-						img = new ShukaaaImage(buffImg);
-						return img;
+						return new ShukaaaImage(buffImg);
 				} catch (IOException e) {
 						throw new ImageNotFoundException("No image found in this path!");
 				}
@@ -41,6 +54,7 @@ public class Main {
 
 		public static void setImg(File f) throws ImageNotFoundException {
 				ShukaaaImage img = getImg(f);
+				String tempImageCount = DataStore.getTempImageCount();
 
 				// check if folder temp exists and if not create it
 				File tempFolder = new File("temp");
@@ -52,7 +66,8 @@ public class Main {
 
 				img.export("./temp/tempImage-" + tempImageCount, ImageFormats.PNG);
 				uiManager.updateImage("./temp/tempImage-" + tempImageCount + ".png");
-				tempImageCount = String.valueOf(Integer.parseInt(tempImageCount) + 1);
+				DataStore.setTempImageCount(String.valueOf(Integer.parseInt(tempImageCount) + 1));
+				DataStore.setImg(img);
 		}
 
 		public static void deleteTempImages() {

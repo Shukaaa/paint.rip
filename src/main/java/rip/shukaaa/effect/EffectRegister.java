@@ -18,7 +18,6 @@ public final class EffectRegister {
 				// Distortion
 				put("Black and White", new BlackAndWhite());
 				put("Cos-Sin-Shuffler", new CosSinShuffler());
-				put("Distortion Flip", new DistortionFlip());
 				put("Noise Shuffler", new RandomShuffler());
 				put("Row Slicer", new RowSlicer());
 				put("Triangle Ruler", new TriangleRuler());
