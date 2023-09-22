@@ -5,6 +5,7 @@ import rip.shukaaa.image.ShukaaaImage;
 public class DataStore {
 		private static ShukaaaImage img = null;
 		private static String tempImageCount = "0";
+		private static int possibleRedoCount = 0;
 
 		public static void setImg(ShukaaaImage img) {
 				DataStore.img = img;
@@ -20,5 +21,13 @@ public class DataStore {
 
 		public static String getTempImageCount() {
 				return tempImageCount;
+		}
+
+		public static void setPossibleRedoCount(int possibleRedoCount) {
+				DataStore.possibleRedoCount = possibleRedoCount;
+		}
+
+		public static int getPossibleRedoCount() {
+				return possibleRedoCount;
 		}
 }

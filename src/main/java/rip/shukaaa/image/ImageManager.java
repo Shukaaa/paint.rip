@@ -24,6 +24,10 @@ public class ImageManager {
 				if (Integer.parseInt(tempImageCount) >= 1) {
 						uiManager.enableUndo();
 				}
+
+				if (DataStore.getPossibleRedoCount() >= 1) {
+						uiManager.disableRedo();
+				}
 		}
 
 		public static void resetImage() throws ImageNotFoundException {
@@ -50,6 +54,25 @@ public class ImageManager {
 						DataStore.setTempImageCount(String.valueOf(tempImageCountInt - 2));
 						File tempImage = new File("./temp/tempImage-" + (tempImageCountInt - 2) + ".png");
 						setImg(tempImage);
+
+						DataStore.setPossibleRedoCount(DataStore.getPossibleRedoCount() + 1);
+						uiManager.enableRedo();
+				}
+		}
+
+		public static void redo() throws ImageNotFoundException {
+				String tempImageCount = DataStore.getTempImageCount();
+				int tempImageCountInt = Integer.parseInt(tempImageCount);
+
+				if (DataStore.getPossibleRedoCount() >= 1) {
+						DataStore.setTempImageCount(String.valueOf(tempImageCountInt));
+						File tempImage = new File("./temp/tempImage-" + (tempImageCountInt) + ".png");
+						setImg(tempImage);
+
+						DataStore.setPossibleRedoCount(DataStore.getPossibleRedoCount() - 1);
+						if (DataStore.getPossibleRedoCount() == 0) {
+								uiManager.disableRedo();
+						}
 				}
 		}
 
@@ -66,7 +89,6 @@ public class ImageManager {
 				ShukaaaImage img = getImg(f);
 				String tempImageCount = DataStore.getTempImageCount();
 
-				// check if folder temp exists and if not create it
 				File tempFolder = new File("temp");
 				if (!tempFolder.exists()) {
 						if (!tempFolder.mkdir()) {
@@ -75,7 +97,6 @@ public class ImageManager {
 				}
 
 				if (Integer.parseInt(tempImageCount) == 0) {
-						System.out.println("tempImageCount == 0");
 						uiManager.disableUndo();
 				}
 
@@ -86,7 +107,6 @@ public class ImageManager {
 		}
 
 		public static void deleteTempImages() {
-				// delete temp folder
 				File tempFolder = new File("temp");
 
 				if (tempFolder.exists()) {
