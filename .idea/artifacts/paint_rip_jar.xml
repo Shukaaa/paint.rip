@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="paint.rip:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/paint_rip_jar</output-path>
+    <root id="archive" name="paint.rip.jar">
+      <element id="module-output" name="paint.rip" />
+    </root>
+  </artifact>
+</component>

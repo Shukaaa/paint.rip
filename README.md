@@ -83,9 +83,3 @@ Possible options:
 ![noise shuffler](assets/noise-shuffler.png)
 
 Turns the image into random noise.
-
-#### Distortion Flip
-
-![distortion flip](assets/distortion-flip.png)
-
-Flips the image and distorts it if the aspect ratio is not 1:1.

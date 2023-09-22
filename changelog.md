@@ -1,3 +1,16 @@
+### 2.0
+- More efficient temporary file handling
+- Added Undo & Redo
+- Added Popup-Menus to the Effects
+- Added Vertical and Horizontal Flip
+- Added 180-degree rotation
+- Removed Distortion Flip Effect & Flip Effect
+- Added TriangleRuler Effect
+- Added Line Effect
+- Added new Effect Category: `Generate`
+  - Added new Effect: `Border`
+  - Added new Effect: `Vignette`
+
 ### 1.2
 - Added Noise Shuffler Effect
 - Added Distortion Flip Effect
