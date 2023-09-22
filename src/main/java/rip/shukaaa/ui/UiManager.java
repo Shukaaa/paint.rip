@@ -38,7 +38,7 @@ public class UiManager {
 				});
 
 				// Add File Menu
-				this.menuBar = new UiMenuBar();
+				this.menuBar = new UiMenuBar(this.frame);
 				this.frame.setJMenuBar(menuBar);
 
 				this.label = new JLabel("Select an image to start (File > Open)");

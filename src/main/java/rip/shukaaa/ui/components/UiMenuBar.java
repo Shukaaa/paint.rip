@@ -14,10 +14,16 @@ import rip.shukaaa.ui.logic.menu.items.image.ResizeMenuItem;
 import rip.shukaaa.utils.UiUtils;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 
 public class UiMenuBar extends JMenuBar {
-		public UiMenuBar() {
+		JFrame frame;
+
+		public UiMenuBar(JFrame frame) {
+				this.frame = frame;
+
 				//*************//
 				//* File Menu *//
 				//*************//
@@ -167,12 +173,36 @@ public class UiMenuBar extends JMenuBar {
 				}
 
 				if (Objects.equals(category.getMainCategory(), "Effects")) {
-						if (effectsMenu.getItemCount() != 0) {
-								effectsMenu.addSeparator();
+						JMenuItem subcategory = new JMenuItem(category.getSubCategory());
+						JPopupMenu popupMenu = new JPopupMenu();
+
+						for (JMenuItem menuItem : menuItems) {
+								menuItem.addActionListener(e -> effectsMenu.setPopupMenuVisible(false));
+								popupMenu.add(menuItem);
 						}
 
-						effectsMenu.add(UiUtils.createLabelTitle(category.getSubCategory() + ": "));
-						menuItems.forEach(effectsMenu::add);
+						subcategory.addMouseListener(new MouseAdapter() {
+								@Override
+								public void mouseEntered(MouseEvent e) {
+										popupMenu.show(subcategory, subcategory.getWidth(), -3);
+										effectsMenu.setPopupMenuVisible(true);
+								}
+						});
+
+						frame.addMouseListener(new MouseAdapter() {
+								@Override
+								public void mouseClicked(MouseEvent e) {
+										if (!popupMenu.isVisible()) {
+												popupMenu.setVisible(false);
+										}
+
+										if (!effectsMenu.isSelected()) {
+												effectsMenu.setPopupMenuVisible(false);
+										}
+								}
+						});
+
+						effectsMenu.add(subcategory);
 				}
 		}
 }

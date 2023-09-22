@@ -8,8 +8,8 @@ public class UiUtils {
 		public static JLabel createLabelTitle(String title) {
 				JLabel label = new JLabel(title);
 				// add bold
-				label.setFont(label.getFont().deriveFont(14.0f).deriveFont(Font.ITALIC));
-				label.setBorder(BorderFactory.createEmptyBorder(0, 8, 4, 0));
+				label.setFont(label.getFont().deriveFont(13.0f));
+				label.setBorder(BorderFactory.createEmptyBorder(2, 8, 4, 0));
 				return label;
 		}
 
