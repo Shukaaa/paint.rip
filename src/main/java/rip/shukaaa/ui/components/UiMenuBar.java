@@ -36,6 +36,7 @@ public class UiMenuBar extends JMenuBar {
 				JMenuItem save = new SaveMenuItem().getItem();
 				JMenuItem exit = new ExitMenuItem().getItem();
 
+				open.setAccelerator(KeyStrokeRegister.open);
 				save.setAccelerator(KeyStrokeRegister.save);
 
 				fileMenu.add(open);

@@ -3,6 +3,7 @@ package rip.shukaaa.keystrokes;
 import javax.swing.*;
 
 public class KeyStrokeRegister {
+		public static KeyStroke open = KeyStroke.getKeyStroke("control O"); // Open (STRG + O)
 		public static KeyStroke save = KeyStroke.getKeyStroke("control S"); // Save (STRG + S)
 
 		public static KeyStroke reset = KeyStroke.getKeyStroke("control shift N"); // Reset (STRG + Shift + N)
