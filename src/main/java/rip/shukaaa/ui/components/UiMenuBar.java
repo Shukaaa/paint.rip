@@ -3,6 +3,7 @@ package rip.shukaaa.ui.components;
 import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.EffectRegister;
 import rip.shukaaa.enums.EffectCategory;
+import rip.shukaaa.keystrokes.KeyStrokeRegister;
 import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.UndoMenuItem;
@@ -35,6 +36,8 @@ public class UiMenuBar extends JMenuBar {
 				JMenuItem save = new SaveMenuItem().getItem();
 				JMenuItem exit = new ExitMenuItem().getItem();
 
+				save.setAccelerator(KeyStrokeRegister.save);
+
 				fileMenu.add(open);
 				fileMenu.add(save);
 				fileMenu.addSeparator();
@@ -50,6 +53,10 @@ public class UiMenuBar extends JMenuBar {
 				JMenuItem reset = new ResetMenuItem().getItem();
 				JMenuItem undo = new UndoMenuItem().getItem();
 				JMenuItem redo = new RedoMenuItem().getItem();
+
+				reset.setAccelerator(KeyStrokeRegister.reset);
+				undo.setAccelerator(KeyStrokeRegister.undo);
+				redo.setAccelerator(KeyStrokeRegister.redo);
 
 				editMenu.add(reset);
 				editMenu.addSeparator();
@@ -73,6 +80,8 @@ public class UiMenuBar extends JMenuBar {
 
 				JLabel propertiesLabel = UiUtils.createLabelTitle("Properties: ");
 				JMenuItem resize = new ResizeMenuItem().getItem();
+
+				resize.setAccelerator(KeyStrokeRegister.resize);
 
 				imageMenu.add(propertiesLabel);
 				imageMenu.add(resize);

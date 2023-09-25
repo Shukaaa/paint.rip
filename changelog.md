@@ -1,3 +1,12 @@
+### 2.1
+- Added Keyboard Shortcuts
+  - Added `Ctrl+Z` for Undo
+  - Added `Ctrl+Y` for Redo
+  - Added `Ctrl+O` for Open
+  - Added `Ctrl+S` for Save
+  - Added `Ctrl+Shift+N` for Reset
+  - Added `Ctrl+R` for Resize Image
+
 ### 2.0
 - More efficient temporary file handling
 - Added Undo & Redo
