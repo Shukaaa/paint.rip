@@ -7,16 +7,16 @@ import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import javax.swing.*;
 
 public class RedoMenuItem extends MenuItem {
-		@Override
-		protected JMenuItem createItem() {
-				JMenuItem redo = new JMenuItem("Redo");
-				redo.addActionListener(e -> {
-						try {
-								ImageManager.redo();
-						} catch (ImageNotFoundException ex) {
-								throw new RuntimeException(ex);
-						}
-				});
-				return redo;
-		}
+    @Override
+    protected JMenuItem createItem() {
+        JMenuItem redo = new JMenuItem("Redo");
+        redo.addActionListener(e -> {
+            try {
+                ImageManager.redo();
+            } catch (ImageNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        return redo;
+    }
 }

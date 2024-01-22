@@ -7,16 +7,16 @@ import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import javax.swing.*;
 
 public class ResetMenuItem extends MenuItem {
-		@Override
-		protected JMenuItem createItem() {
-				JMenuItem reset = new JMenuItem("Reset");
-				reset.addActionListener(e -> {
-						try {
-								ImageManager.resetImage();
-						} catch (ImageNotFoundException ex) {
-								throw new RuntimeException(ex);
-						}
-				});
-				return reset;
-		}
+    @Override
+    protected JMenuItem createItem() {
+        JMenuItem reset = new JMenuItem("Reset");
+        reset.addActionListener(e -> {
+            try {
+                ImageManager.resetImage();
+            } catch (ImageNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        return reset;
+    }
 }

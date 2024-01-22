@@ -11,21 +11,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Line extends Effect {
-		public Line() {
-				super(new EffectInput[0], EffectCategory.EFFECTS);
-		}
+    public Line() {
+        super(new EffectInput[0], EffectCategory.EFFECTS);
+    }
 
-		@Override
-		public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
-				// make all even pixels black
-				ArrayList<Pixel> pixels = image.getPixels();
-				for (int i = 0; i < pixels.size(); i++) {
-						if (i % 2 == 0) {
-								pixels.get(i).setRed(0);
-								pixels.get(i).setGreen(0);
-								pixels.get(i).setBlue(0);
-						}
-				}
-				return pixels;
-		}
+    @Override
+    public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {
+        // make all even pixels black
+        ArrayList<Pixel> pixels = image.getPixels();
+        for (int i = 0; i < pixels.size(); i++) {
+            if (i % 2 == 0) {
+                pixels.get(i).setRed(0);
+                pixels.get(i).setGreen(0);
+                pixels.get(i).setBlue(0);
+            }
+        }
+        return pixels;
+    }
 }
