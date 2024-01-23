@@ -1,13 +1,19 @@
 package rip.shukaaa.ui.logic.menu.items.file;
 
 import rip.shukaaa.enums.ImageFormats;
+import rip.shukaaa.keystrokes.KeyStrokeRegister;
 import rip.shukaaa.stores.DataStore;
 import rip.shukaaa.ui.logic.menu.items.MenuItem;
 import rip.shukaaa.utils.UiUtils;
 
 import javax.swing.*;
+import java.util.Optional;
 
 public class SaveMenuItem extends MenuItem {
+    public SaveMenuItem() {
+        super(Optional.of(KeyStrokeRegister.save));
+    }
+
     @Override
     protected JMenuItem createItem() {
         JMenuItem save = new JMenuItem("Save");

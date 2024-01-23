@@ -4,6 +4,7 @@ import rip.shukaaa.effect.Effect;
 import rip.shukaaa.effect.EffectRegister;
 import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.keystrokes.KeyStrokeRegister;
+import rip.shukaaa.ui.logic.menu.bar.MenuRegister;
 import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
 import rip.shukaaa.ui.logic.menu.items.edit.UndoMenuItem;
@@ -25,70 +26,12 @@ public class UiMenuBar extends JMenuBar {
     public UiMenuBar(JFrame frame) {
         this.frame = frame;
 
-        //*************//
-        //* File Menu *//
-        //*************//
+        JMenu[] menus = MenuRegister.menus;
+        for (JMenu menu : menus) {
+            this.add(menu);
+        }
 
-        JMenu fileMenu = new JMenu("File");
-        this.add(fileMenu);
-
-        JMenuItem open = new OpenMenuItem().getItem();
-        JMenuItem save = new SaveMenuItem().getItem();
-        JMenuItem exit = new ExitMenuItem().getItem();
-
-        open.setAccelerator(KeyStrokeRegister.open);
-        save.setAccelerator(KeyStrokeRegister.save);
-
-        fileMenu.add(open);
-        fileMenu.add(save);
-        fileMenu.addSeparator();
-        fileMenu.add(exit);
-
-        //*************//
-        //* Edit Menu *//
-        //*************//
-
-        JMenu editMenu = new JMenu("Edit");
-        this.add(editMenu);
-
-        JMenuItem reset = new ResetMenuItem().getItem();
-        JMenuItem undo = new UndoMenuItem().getItem();
-        JMenuItem redo = new RedoMenuItem().getItem();
-
-        reset.setAccelerator(KeyStrokeRegister.reset);
-        undo.setAccelerator(KeyStrokeRegister.undo);
-        redo.setAccelerator(KeyStrokeRegister.redo);
-
-        editMenu.add(reset);
-        editMenu.addSeparator();
-        editMenu.add(undo);
-        editMenu.add(redo);
-
-        //****************//
-        //* Effects Menu *//
-        //****************//
-
-        // Effects get added dynamically, so we just need to create the menu here
-        JMenu effectsMenu = new JMenu("Effects");
-        this.add(effectsMenu);
-
-        //***************//
-        //* Image Menu *//
-        //***************//
-
-        JMenu imageMenu = new JMenu("Image");
-        this.add(imageMenu);
-
-        JLabel propertiesLabel = UiUtils.createLabelTitle("Properties: ");
-        JMenuItem resize = new ResizeMenuItem().getItem();
-
-        resize.setAccelerator(KeyStrokeRegister.resize);
-
-        imageMenu.add(propertiesLabel);
-        imageMenu.add(resize);
-
-        //***************//
-
+        JMenuItem save = this.getMenu(0).getItem(1);
         this.disableMenu(save);
 
         HashMap<String, Effect> effects = EffectRegister.effects;
@@ -126,6 +69,9 @@ public class UiMenuBar extends JMenuBar {
         for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : sortedItems.entrySet()) {
             EffectCategory category = entry.getKey();
             ArrayList<JMenuItem> menuItems = entry.getValue();
+
+            JMenu imageMenu = this.getMenu(3);
+            JMenu effectsMenu = this.getMenu(2);
 
             this.addMenuItems(menuItems, category, imageMenu, effectsMenu);
         }

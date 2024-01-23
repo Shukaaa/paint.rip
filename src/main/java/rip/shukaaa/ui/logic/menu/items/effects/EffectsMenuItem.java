@@ -16,12 +16,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EffectsMenuItem extends MenuItem {
     private final String name;
     private final Effect effect;
 
     public EffectsMenuItem(String name, Effect effect) {
+        super(Optional.empty());
         this.name = name;
         this.effect = effect;
     }
