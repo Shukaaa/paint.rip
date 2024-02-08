@@ -1,6 +1,6 @@
 package rip.shukaaa.ui.logic.menu.items.effects;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.ComboBox;
 import rip.shukaaa.effect.input.inputs.Slider;
@@ -16,98 +16,100 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class EffectsMenuItem extends MenuItem {
-		private final String name;
-		private final Effect effect;
+    private final String name;
+    private final Effect effect;
 
-		public EffectsMenuItem(String name, Effect effect) {
-				this.name = name;
-				this.effect = effect;
-		}
+    public EffectsMenuItem(String name, Effect effect) {
+        super(Optional.empty());
+        this.name = name;
+        this.effect = effect;
+    }
 
-		@Override
-		protected JMenuItem createItem() {
-				JMenuItem item = new JMenuItem(this.name);
-				item.addActionListener(e -> {
-						// If the effect has no inputs, apply it and return (no JComponents needed)
-						if (this.effect.getEffectInputs().length == 0) {
-								applyEffect(new HashMap<>());
-								return;
-						}
+    @Override
+    protected JMenuItem createItem() {
+        JMenuItem item = new JMenuItem(this.name);
+        item.addActionListener(e -> {
+            // If the effect has no inputs, apply it and return (no JComponents needed)
+            if (this.effect.getEffectInputs().length == 0) {
+                applyEffect(new HashMap<>());
+                return;
+            }
 
-						JDialog dialog = UiUtils.createDialog("Add " + name);
-						HashMap<String, JComponent> componentMap = new HashMap<>();
+            JDialog dialog = UiUtils.createDialog("Add " + name);
+            HashMap<String, JComponent> componentMap = new HashMap<>();
 
-						for (EffectInput input : this.effect.getEffectInputs()) {
-								JComponent component = createJComponent(input);
+            for (EffectInput input : this.effect.getEffectInputs()) {
+                JComponent component = createJComponent(input);
 
-								dialog.add(new JLabel(input.getTitle() + ":"));
-								dialog.add(component);
-								componentMap.put(input.getTitle(), component);
-						}
+                dialog.add(new JLabel(input.getTitle() + ":"));
+                dialog.add(component);
+                componentMap.put(input.getTitle(), component);
+            }
 
-						JButton apply = new JButton("Apply");
-						dialog.add(apply);
+            JButton apply = new JButton("Apply");
+            dialog.add(apply);
 
-						apply.addActionListener(e1 -> {
-								HashMap<String, Object> options = new HashMap<>();
-								for (Map.Entry<String, JComponent> component : componentMap.entrySet()) {
-										String key = component.getKey();
-										JComponent value = component.getValue();
+            apply.addActionListener(e1 -> {
+                HashMap<String, Object> options = new HashMap<>();
+                for (Map.Entry<String, JComponent> component : componentMap.entrySet()) {
+                    String key = component.getKey();
+                    JComponent value = component.getValue();
 
-										options.put(key, getJComponentValue(value));
-								}
-								applyEffect(options);
-								dialog.dispose();
-						});
-						dialog.pack();
-				});
+                    options.put(key, getJComponentValue(value));
+                }
+                applyEffect(options);
+                dialog.dispose();
+            });
+            dialog.pack();
+        });
 
-				return item;
-		}
+        return item;
+    }
 
-		private JComponent createJComponent(EffectInput input) {
-				switch (input.getName()) {
-						case "slider" -> {
-								Slider sliderInput = (Slider) input;
-								return new JSlider(sliderInput.getMin(), sliderInput.getMax(), sliderInput.getDefaultValue());
-						}
-						case "colorchooser" -> {
-								return new JColorChooser();
-						}
-						case "combobox" -> {
-								ComboBox<Object> comboBoxInput = (ComboBox<Object>) input;
-								return new JComboBox<>(comboBoxInput.getValues());
-						}
-						default -> throw new RuntimeException("Invalid input type: " + input.getName());
-				}
-		}
+    private JComponent createJComponent(EffectInput input) {
+        switch (input.getName()) {
+            case "slider" -> {
+                Slider sliderInput = (Slider) input;
+                return new JSlider(sliderInput.getMin(), sliderInput.getMax(), sliderInput.getDefaultValue());
+            }
+            case "colorchooser" -> {
+                return new JColorChooser();
+            }
+            case "combobox" -> {
+                ComboBox<Object> comboBoxInput = (ComboBox<Object>) input;
+                return new JComboBox<>(comboBoxInput.getValues());
+            }
+            default -> throw new RuntimeException("Invalid input type: " + input.getName());
+        }
+    }
 
-		private Object getJComponentValue(JComponent component) {
-				switch (component.getClass().getSimpleName()) {
-						case "JSlider" -> {
-								return ((JSlider) component).getValue();
-						}
-						case "JColorChooser" -> {
-								Color color = ((JColorChooser) component).getColor();
-								return new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-						}
-						case "JComboBox" -> {
-								return ((JComboBox<?>) component).getSelectedItem();
-						}
-						default -> throw new RuntimeException("Invalid input type: " + component.getClass().getSimpleName());
-				}
-		}
+    private Object getJComponentValue(JComponent component) {
+        switch (component.getClass().getSimpleName()) {
+            case "JSlider" -> {
+                return ((JSlider) component).getValue();
+            }
+            case "JColorChooser" -> {
+                Color color = ((JColorChooser) component).getColor();
+                return new Pixel(color.getRed(), color.getGreen(), color.getBlue());
+            }
+            case "JComboBox" -> {
+                return ((JComboBox<?>) component).getSelectedItem();
+            }
+            default -> throw new RuntimeException("Invalid input type: " + component.getClass().getSimpleName());
+        }
+    }
 
-		private void applyEffect(HashMap<String, Object> options) {
-				ShukaaaImage img = DataStore.getImg();
-				try {
-						img.applyEffect(this.effect, options);
-				} catch (EffectOptionNotFoundException ex) {
-						throw new RuntimeException(ex);
-				}
-				ImageManager.updateImage(img);
-				DataStore.setImg(img);
-		}
+    private void applyEffect(HashMap<String, Object> options) {
+        ShukaaaImage img = DataStore.getImg();
+        try {
+            img.applyEffect(this.effect, options);
+        } catch (EffectOptionNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        ImageManager.updateImage(img);
+        DataStore.setImg(img);
+    }
 }
