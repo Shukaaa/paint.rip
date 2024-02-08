@@ -1,8 +1,8 @@
 package rip.shukaaa.effect.effects.basic;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.category.EffectCategoryRegister;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class Line extends Effect {
     public Line() {
-        super(new EffectInput[0], EffectCategory.EFFECTS);
+        super(new EffectInput[0], EffectCategoryRegister.BASICS);
     }
 
     @Override

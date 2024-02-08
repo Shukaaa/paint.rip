@@ -1,10 +1,10 @@
-package rip.shukaaa.effect;
+package rip.shukaaa.effect.effects;
 
 import rip.shukaaa.effect.input.EffectInput;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
+import rip.shukaaa.effect.category.EffectCategory;
 
 import java.util.ArrayList;
 import java.util.HashMap;

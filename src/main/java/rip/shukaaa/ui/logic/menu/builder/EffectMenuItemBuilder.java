@@ -1,8 +1,8 @@
 package rip.shukaaa.ui.logic.menu.builder;
 
-import rip.shukaaa.effect.Effect;
-import rip.shukaaa.effect.EffectRegister;
-import rip.shukaaa.enums.EffectCategory;
+import rip.shukaaa.effect.effects.Effect;
+import rip.shukaaa.effect.effects.EffectRegister;
+import rip.shukaaa.effect.category.EffectCategory;
 import rip.shukaaa.ui.logic.menu.items.effects.EffectsMenuItem;
 
 import javax.swing.*;

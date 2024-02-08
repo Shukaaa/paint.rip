@@ -1,9 +1,9 @@
 package rip.shukaaa.effect.effects.distortion;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.category.EffectCategoryRegister;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.ComboBox;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.enums.RowSlicerDirection;
 import rip.shukaaa.enums.RowSlicerMode;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
@@ -19,7 +19,7 @@ public class RowSlicer extends Effect {
         super(new EffectInput[]{
                 new ComboBox<>(RowSlicerDirection.values(), "Direction"),
                 new ComboBox<>(RowSlicerMode.values(), "Mode")
-        }, EffectCategory.DISTORTION);
+        }, EffectCategoryRegister.DISTORTION);
     }
 
     public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {

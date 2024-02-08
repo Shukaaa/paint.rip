@@ -1,6 +1,6 @@
 package rip.shukaaa.ui.logic.menu.items.effects;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.ComboBox;
 import rip.shukaaa.effect.input.inputs.Slider;

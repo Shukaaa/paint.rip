@@ -1,8 +1,8 @@
 package rip.shukaaa.effect.effects.transform;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.category.EffectCategoryRegister;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class HorizontalFlip extends Effect {
     public HorizontalFlip() {
-        super(new EffectInput[0], EffectCategory.TRANSFORM);
+        super(new EffectInput[0], EffectCategoryRegister.TRANSFORM);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package rip.shukaaa.effect;
+package rip.shukaaa.effect.effects;
 
 import rip.shukaaa.effect.effects.basic.*;
 import rip.shukaaa.effect.effects.distortion.*;

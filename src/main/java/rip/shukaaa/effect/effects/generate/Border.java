@@ -1,9 +1,9 @@
 package rip.shukaaa.effect.effects.generate;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.category.EffectCategoryRegister;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.Slider;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -16,7 +16,7 @@ public class Border extends Effect {
     public Border() {
         super(new EffectInput[]{
                 new Slider(0, 100, 5, "Border Width in Px")
-        }, EffectCategory.GENERATE);
+        }, EffectCategoryRegister.GENERATE);
     }
 
     @Override

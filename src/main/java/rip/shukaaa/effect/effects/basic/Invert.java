@@ -1,9 +1,9 @@
 package rip.shukaaa.effect.effects.basic;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.category.EffectCategoryRegister;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.effect.input.inputs.Slider;
-import rip.shukaaa.enums.EffectCategory;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
 import rip.shukaaa.image.Pixel;
 import rip.shukaaa.image.ShukaaaImage;
@@ -15,7 +15,7 @@ public final class Invert extends Effect {
     public Invert() {
         super(new EffectInput[]{
                 new Slider(0, 256, 256, "Threshold")
-        }, EffectCategory.EFFECTS);
+        }, EffectCategoryRegister.BASICS);
     }
 
     public ArrayList<Pixel> apply(ShukaaaImage image, HashMap<String, Object> args) throws EffectOptionNotFoundException {

@@ -1,6 +1,6 @@
 package rip.shukaaa.ui.components;
 
-import rip.shukaaa.enums.EffectCategory;
+import rip.shukaaa.effect.category.EffectCategory;
 import rip.shukaaa.ui.logic.menu.bar.MenuRegister;
 import rip.shukaaa.ui.logic.menu.builder.EffectMenuItemBuilder;
 import rip.shukaaa.utils.UiUtils;

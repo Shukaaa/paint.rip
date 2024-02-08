@@ -1,6 +1,6 @@
 package rip.shukaaa.image;
 
-import rip.shukaaa.effect.Effect;
+import rip.shukaaa.effect.effects.Effect;
 import rip.shukaaa.effect.input.EffectInput;
 import rip.shukaaa.enums.ImageFormats;
 import rip.shukaaa.exceptions.EffectOptionNotFoundException;
