@@ -9,6 +9,8 @@ import rip.shukaaa.ui.logic.menu.items.file.SaveMenuItem;
 import rip.shukaaa.ui.logic.menu.items.image.ResizeMenuItem;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class MenuRegister {
     public static final JMenu[] menus = {

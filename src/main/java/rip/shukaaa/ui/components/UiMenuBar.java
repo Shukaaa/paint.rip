@@ -1,18 +1,8 @@
 package rip.shukaaa.ui.components;
 
-import rip.shukaaa.effect.Effect;
-import rip.shukaaa.effect.EffectRegister;
 import rip.shukaaa.enums.EffectCategory;
-import rip.shukaaa.keystrokes.KeyStrokeRegister;
 import rip.shukaaa.ui.logic.menu.bar.MenuRegister;
-import rip.shukaaa.ui.logic.menu.items.edit.RedoMenuItem;
-import rip.shukaaa.ui.logic.menu.items.edit.ResetMenuItem;
-import rip.shukaaa.ui.logic.menu.items.edit.UndoMenuItem;
-import rip.shukaaa.ui.logic.menu.items.effects.EffectsMenuItem;
-import rip.shukaaa.ui.logic.menu.items.file.ExitMenuItem;
-import rip.shukaaa.ui.logic.menu.items.file.OpenMenuItem;
-import rip.shukaaa.ui.logic.menu.items.file.SaveMenuItem;
-import rip.shukaaa.ui.logic.menu.items.image.ResizeMenuItem;
+import rip.shukaaa.ui.logic.menu.builder.EffectMenuItemBuilder;
 import rip.shukaaa.utils.UiUtils;
 
 import javax.swing.*;
@@ -34,46 +24,16 @@ public class UiMenuBar extends JMenuBar {
         JMenuItem save = this.getMenu(0).getItem(1);
         this.disableMenu(save);
 
-        HashMap<String, Effect> effects = EffectRegister.effects;
-        HashMap<EffectCategory, ArrayList<JMenuItem>> items = new HashMap<>();
 
-        // Create menu items for each effect and apply a dialog for each effect
-        for (Map.Entry<String, Effect> effectEntry : effects.entrySet()) {
-            String name = effectEntry.getKey();
-            Effect effect = effectEntry.getValue();
-
-            JMenuItem item = new EffectsMenuItem(name, effect).getItem();
-            EffectCategory category = effect.getCategory();
-
-            if (items.containsKey(category)) {
-                items.get(category).add(item);
-                continue;
-            }
-
-            ArrayList<JMenuItem> menuItemList = new ArrayList<>();
-            menuItemList.add(item);
-            items.put(category, menuItemList);
-        }
-
-        // Sort the menu items alphabetically
+        TreeMap<EffectCategory, ArrayList<JMenuItem>> items = new EffectMenuItemBuilder().getItemTree();
         for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : items.entrySet()) {
-            ArrayList<JMenuItem> list = entry.getValue();
-            list.sort(Comparator.comparing(JMenuItem::getText));
-        }
-
-        // Sort the categories alphabetically
-        TreeMap<EffectCategory, ArrayList<JMenuItem>> sortedItems
-                = new TreeMap<>(Comparator.comparing(EffectCategory::getSubCategory));
-        sortedItems.putAll(items);
-
-        for (Map.Entry<EffectCategory, ArrayList<JMenuItem>> entry : sortedItems.entrySet()) {
             EffectCategory category = entry.getKey();
             ArrayList<JMenuItem> menuItems = entry.getValue();
 
             JMenu imageMenu = this.getMenu(3);
             JMenu effectsMenu = this.getMenu(2);
 
-            this.addMenuItems(menuItems, category, imageMenu, effectsMenu);
+            this.addEffectMenuItems(menuItems, category, imageMenu, effectsMenu);
         }
     }
 
@@ -118,7 +78,7 @@ public class UiMenuBar extends JMenuBar {
         save.setEnabled(false);
     }
 
-    private void addMenuItems(ArrayList<JMenuItem> menuItems, EffectCategory category, JMenu imageMenu, JMenu effectsMenu) {
+    private void addEffectMenuItems(ArrayList<JMenuItem> menuItems, EffectCategory category, JMenu imageMenu, JMenu effectsMenu) {
         if (Objects.equals(category.getMainCategory(), "Image")) {
             if (imageMenu.getItemCount() != 0) {
                 imageMenu.addSeparator();
