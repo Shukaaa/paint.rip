@@ -39,14 +39,14 @@ public class EffectsMenuItem extends MenuItem {
             }
 
             JDialog dialog = UiUtils.createDialog("Add " + name);
-            HashMap<String, JComponent> componentMap = new HashMap<>();
+            HashMap<EffectInput, JComponent> componentMap = new HashMap<>();
 
             for (EffectInput input : this.effect.getEffectInputs()) {
-                JComponent component = createJComponent(input);
+                JComponent component = input.createJComponent();
 
                 dialog.add(new JLabel(input.getTitle() + ":"));
                 dialog.add(component);
-                componentMap.put(input.getTitle(), component);
+                componentMap.put(input, component);
             }
 
             JButton apply = new JButton("Apply");
@@ -54,11 +54,11 @@ public class EffectsMenuItem extends MenuItem {
 
             apply.addActionListener(e1 -> {
                 HashMap<String, Object> options = new HashMap<>();
-                for (Map.Entry<String, JComponent> component : componentMap.entrySet()) {
-                    String key = component.getKey();
-                    JComponent value = component.getValue();
+                for (Map.Entry<EffectInput, JComponent> component : componentMap.entrySet()) {
+                    EffectInput effectInput = component.getKey();
+                    JComponent generatedComponent = component.getValue();
 
-                    options.put(key, getJComponentValue(value));
+                    options.put(effectInput.getTitle(), effectInput.getInputValue(generatedComponent));
                 }
                 applyEffect(options);
                 dialog.dispose();
@@ -67,39 +67,6 @@ public class EffectsMenuItem extends MenuItem {
         });
 
         return item;
-    }
-
-    private JComponent createJComponent(EffectInput input) {
-        switch (input.getName()) {
-            case "slider" -> {
-                Slider sliderInput = (Slider) input;
-                return new JSlider(sliderInput.getMin(), sliderInput.getMax(), sliderInput.getDefaultValue());
-            }
-            case "colorchooser" -> {
-                return new JColorChooser();
-            }
-            case "combobox" -> {
-                ComboBox<Object> comboBoxInput = (ComboBox<Object>) input;
-                return new JComboBox<>(comboBoxInput.getValues());
-            }
-            default -> throw new RuntimeException("Invalid input type: " + input.getName());
-        }
-    }
-
-    private Object getJComponentValue(JComponent component) {
-        switch (component.getClass().getSimpleName()) {
-            case "JSlider" -> {
-                return ((JSlider) component).getValue();
-            }
-            case "JColorChooser" -> {
-                Color color = ((JColorChooser) component).getColor();
-                return new Pixel(color.getRed(), color.getGreen(), color.getBlue());
-            }
-            case "JComboBox" -> {
-                return ((JComboBox<?>) component).getSelectedItem();
-            }
-            default -> throw new RuntimeException("Invalid input type: " + component.getClass().getSimpleName());
-        }
     }
 
     private void applyEffect(HashMap<String, Object> options) {
