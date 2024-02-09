@@ -1,5 +1,6 @@
-package rip.shukaaa.api.effect.effects;
+package rip.shukaaa.application.register;
 
+import rip.shukaaa.api.effect.effects.Effect;
 import rip.shukaaa.api.effect.effects.basic.*;
 import rip.shukaaa.api.effect.effects.distortion.*;
 import rip.shukaaa.api.effect.effects.generate.*;
@@ -31,12 +32,4 @@ public final class EffectRegister {
         put("Vignette", new Vignetting());
         put("Border", new Border());
     }};
-
-    public static Effect getEffect(String name) {
-        if (!effects.containsKey(name)) {
-            throw new IllegalArgumentException("Effect " + name + " does not exist");
-        }
-
-        return effects.get(name);
-    }
 }

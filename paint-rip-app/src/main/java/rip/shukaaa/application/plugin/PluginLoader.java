@@ -1,6 +1,6 @@
 package rip.shukaaa.application.plugin;
 
-import rip.shukaaa.api.PluginEffect;
+import rip.shukaaa.api.effect.effects.Effect;
 import rip.shukaaa.application.stores.PluginStore;
 
 import java.io.File;
@@ -17,7 +17,7 @@ public class PluginLoader {
 
     public static void loadEffects() {
         File effectDir = new File(PLUGINS_DIR + "effects/");
-        ArrayList<PluginEffect> plugins = new ArrayList<>();
+        ArrayList<Effect> plugins = new ArrayList<>();
 
         if (effectDir.exists() && effectDir.isDirectory()) {
             loadPluginsFromFiles(effectDir, plugins);
@@ -26,7 +26,7 @@ public class PluginLoader {
         PluginStore.addPluginEffects(plugins);
     }
 
-    private static void loadPluginsFromFiles(File effectDir, List<PluginEffect> plugins) {
+    private static void loadPluginsFromFiles(File effectDir, List<Effect> plugins) {
         File[] files = effectDir.listFiles();
         if (files != null) {
             for (File jar : files) {
@@ -35,7 +35,7 @@ public class PluginLoader {
         }
     }
 
-    private static void loadPluginsFromFile(File jar, List<PluginEffect> plugins) {
+    private static void loadPluginsFromFile(File jar, List<Effect> plugins) {
         try {
             URL jarURL = jar.toURI().toURL();
 
@@ -47,7 +47,7 @@ public class PluginLoader {
         }
     }
 
-    private static void loadPluginsFromJarFile(URLClassLoader classLoader, List<PluginEffect> plugins) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private static void loadPluginsFromJarFile(URLClassLoader classLoader, List<Effect> plugins) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Properties properties = new Properties();
         properties.load(classLoader.getResourceAsStream("module.properties"));
         String classNames = properties.getProperty("effect-classes");
@@ -58,11 +58,11 @@ public class PluginLoader {
         }
     }
 
-    private static void loadPluginFromClassName(String className, URLClassLoader classLoader, List<PluginEffect> plugins) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private static void loadPluginFromClassName(String className, URLClassLoader classLoader, List<Effect> plugins) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Class<?> loadedClass = classLoader.loadClass(className);
 
-        if (PluginEffect.class.isAssignableFrom(loadedClass)) {
-            PluginEffect plugin = (PluginEffect) loadedClass.getDeclaredConstructor().newInstance();
+        if (Effect.class.isAssignableFrom(loadedClass)) {
+            Effect plugin = (Effect) loadedClass.getDeclaredConstructor().newInstance();
             plugins.add(plugin);
         }
     }

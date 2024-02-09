@@ -19,11 +19,20 @@ public abstract class Effect {
         this.category = category;
     }
 
+    public Effect(EffectCategory category) {
+        this.effectInputs = new EffectInput[0];
+        this.category = category;
+    }
+
     public EffectInput[] getEffectInputs() {
         return effectInputs;
     }
 
     public EffectCategory getCategory() {
         return category;
+    }
+
+    public String getEffectName() {
+        return this.getClass().getSimpleName();
     }
 }

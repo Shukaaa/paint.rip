@@ -1,12 +1,10 @@
 package rip.shukaaa.application.ui.logic.menu.builder;
 
 import rip.shukaaa.api.effect.effects.Effect;
-import rip.shukaaa.api.effect.effects.EffectRegister;
+import rip.shukaaa.application.register.EffectRegister;
 import rip.shukaaa.api.effect.category.EffectCategory;
-import rip.shukaaa.api.effect.effects.PluginEffectWrapper;
 import rip.shukaaa.application.stores.PluginStore;
 import rip.shukaaa.application.ui.logic.menu.items.effects.EffectsMenuItem;
-import rip.shukaaa.api.PluginEffect;
 
 import javax.swing.*;
 import java.util.*;
@@ -30,38 +28,34 @@ public class EffectMenuItemBuilder {
             JMenuItem item = new EffectsMenuItem(name, effect).getItem();
             EffectCategory category = effect.getCategory();
 
-            if (items.containsKey(category)) {
-                items.get(category).add(item);
-                continue;
-            }
-
-            ArrayList<JMenuItem> menuItemList = new ArrayList<>();
-            menuItemList.add(item);
-            items.put(category, menuItemList);
+            addItemToItemsMap(items, category, item);
         }
 
-        ArrayList<PluginEffect> pluginEffects = PluginStore.pluginEffects;
-        for (PluginEffect pluginEffect : pluginEffects) {
+        ArrayList<Effect> pluginEffects = PluginStore.pluginEffects;
+        for (Effect pluginEffect : pluginEffects) {
             String name = pluginEffect.getEffectName();
-            Effect effect = new PluginEffectWrapper(pluginEffect);
 
             System.out.println("Adding plugin effect: " + name);
 
-            JMenuItem item = new EffectsMenuItem(name, effect).getItem();
-            EffectCategory category = effect.getCategory();
+            JMenuItem item = new EffectsMenuItem(name, pluginEffect).getItem();
+            EffectCategory category = pluginEffect.getCategory();
 
-            if (items.containsKey(category)) {
-                items.get(category).add(item);
-                continue;
-            }
-
-            ArrayList<JMenuItem> menuItemList = new ArrayList<>();
-            menuItemList.add(item);
-            items.put(category, menuItemList);
+            addItemToItemsMap(items, category, item);
         }
 
         this.sortMenuItemsAlphabetically(items);
         return createSortedTreeMap(items);
+    }
+
+    private void addItemToItemsMap(HashMap<EffectCategory, ArrayList<JMenuItem>> items, EffectCategory category, JMenuItem item) {
+        if (items.containsKey(category)) {
+            items.get(category).add(item);
+            return;
+        }
+
+        ArrayList<JMenuItem> menuItemList = new ArrayList<>();
+        menuItemList.add(item);
+        items.put(category, menuItemList);
     }
 
     private void sortMenuItemsAlphabetically(HashMap<EffectCategory, ArrayList<JMenuItem>> items) {
