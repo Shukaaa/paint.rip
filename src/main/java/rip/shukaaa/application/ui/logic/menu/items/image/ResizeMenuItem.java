@@ -29,7 +29,7 @@ public class ResizeMenuItem extends MenuItem {
             JButton apply = new JButton("Apply");
             resizeDialog.add(apply);
             apply.addActionListener(e1 -> {
-                ShukaaaImage img = DataStore.getImg().resizedImage((int) widthSpinner.getValue(), (int) heightSpinner.getValue());
+                ShukaaaImage img = DataStore.getImg().resizeImage((int) widthSpinner.getValue(), (int) heightSpinner.getValue());
                 ImageManager.updateImage(img);
                 resizeDialog.dispose();
             });

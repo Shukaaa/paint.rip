@@ -71,7 +71,7 @@ public class ShukaaaImage extends BufferedImage {
 
     //* Resize *//
 
-    public ShukaaaImage resizedImage(int width, int height) {
+    public ShukaaaImage resizeImage(int width, int height) {
         BufferedImage resized = new BufferedImage(width, height, this.getType());
         resized.getGraphics().drawImage(this, 0, 0, width, height, null);
         return new ShukaaaImage(resized);
@@ -97,7 +97,7 @@ public class ShukaaaImage extends BufferedImage {
     }
 
     public void export(String name, ImageFormats format, int width, int height) {
-        ShukaaaImage resized = this.resizedImage(width, height);
+        ShukaaaImage resized = this.resizeImage(width, height);
         resized.export(name, format);
     }
 
@@ -111,9 +111,5 @@ public class ShukaaaImage extends BufferedImage {
         }
 
         this.setPixels(effect.apply(this, args));
-    }
-
-    public BufferedImage getBufferedImage() {
-        return this;
     }
 }

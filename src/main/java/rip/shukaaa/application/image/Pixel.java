@@ -62,4 +62,8 @@ public class Pixel {
     public int getY(int width) {
         return (pixel / width);
     }
+
+    public int getPixel() {
+        return pixel;
+    }
 }

@@ -1,5 +1,6 @@
 package rip.shukaaa.application.ui;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import rip.shukaaa.application.image.ImageManager;
 import rip.shukaaa.application.ui.components.UiImage;
 import rip.shukaaa.application.ui.components.UiMenuBar;
@@ -16,6 +17,8 @@ public class UiManager {
     UiMenuBar menuBar;
 
     public UiManager(String title) {
+        FlatIntelliJLaf.setup();
+
         this.frame = new JFrame(title);
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(500, 500);
