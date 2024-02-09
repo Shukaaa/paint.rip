@@ -1,4 +1,5 @@
 ### 2.1
+- Massive Refactorings
 - Added Keyboard Shortcuts
   - Added `Ctrl+Z` for Undo
   - Added `Ctrl+Y` for Redo
