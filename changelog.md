@@ -1,5 +1,12 @@
-### 2.1
-- Massive Refactorings
+### 1.0
+- ✅ Completely new UI Styling
+- Ultimate Refactoring
+- ✅ Built API to create Plugins
+- Automated Release Process
+- Webpage for the App
+- Added Unit Tests
+
+### a2.1
 - Added Keyboard Shortcuts
   - Added `Ctrl+Z` for Undo
   - Added `Ctrl+Y` for Redo
@@ -8,7 +15,7 @@
   - Added `Ctrl+Shift+N` for Reset
   - Added `Ctrl+R` for Resize Image
 
-### 2.0
+### a2.0
 - More efficient temporary file handling
 - Added Undo & Redo
 - Added Popup-Menus to the Effects
@@ -21,12 +28,12 @@
   - Added new Effect: `Border`
   - Added new Effect: `Vignette`
 
-### 1.2
+### a1.2
 - Added Noise Shuffler Effect
 - Added Distortion Flip Effect
 - Scale down too large images for the view so the window doesn't get too large
 
-### 1.1
+### a1.1
 - Added Transform Menu Item
     - Added Flip
     - Added Image Resizing
@@ -35,5 +42,5 @@
 - Add Icon
 - Add Logo to Menu
 
-### 1.0
+### a1.0
 - Initial release
